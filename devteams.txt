@@ -1,3 +1,5 @@
 Això és feina del devteams
 
 Això és la correció d'un BUG
+
+Això és la correció del comentari que m'ha posat l'Omar
