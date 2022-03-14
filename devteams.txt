@@ -1,1 +1,3 @@
 Això és feina del devteams
+
+Això és la correció d'un BUG
