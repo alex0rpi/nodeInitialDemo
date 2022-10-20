@@ -1,17 +1,11 @@
 {
-  "name": "client_cat",
+  "name": "client_xat",
   "version": "1.0.0",
   "description": "frontend del xat",
   "main": "app.js",
   "scripts": {
     "start": "node app.js"
   },
-  "keywords": [
-    "xat",
-    "frontend",
-    "web",
-    "sockets"
-  ],
   "author": "Omar",
   "license": "ISC",
   "dependencies": {

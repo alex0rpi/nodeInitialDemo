@@ -1,13 +1,13 @@
 {
-  "name": "nodeinitialdemo",
+  "name": "server_xat",
   "version": "1.0.0",
-  "description": "sample project for node",
+  "description": "backend del xat",
   "main": "app.js",
   "scripts": {
     "start": "node app/app.js",
     "dev": "nodemon app/app.js"
   },
-  "author": "",
+  "author": "Omar",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^9.0.2",
