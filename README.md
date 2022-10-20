@@ -2,6 +2,8 @@
 
 Aquest repo l'estic fent servir per ensenyar com s'han de fer les entregues per pull request (14/3/22).
 
+Cada carpeta té el seu `README.md` amb la descripció dels projectes i les instruccions d'arrencada.
+
 ### Project Structure
 
 Main structure of node.js project. Folders / files:
