@@ -1,4 +1,4 @@
-# Node Initial Demo Omar
+# Node Initial Demo ALEX
 
 Aquest repo l'estic fent servir per ensenyar com s'han de fer les entregues per pull request (14/3/22).
 
