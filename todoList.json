@@ -22,5 +22,13 @@
     "hora_inici": "12:59",
     "hora_final": "16:30",
     "text": "donar de menjar al lloro"
+  },
+  "tasca_4": {
+    "id": 3,
+    "estat": "acabada",
+    "usuari": "Rebeca",
+    "hora_inici": "12:59",
+    "hora_final": "16:30",
+    "text": "donar de menjar al lloro"
   }
 }
