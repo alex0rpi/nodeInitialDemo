@@ -1,21 +1,31 @@
 const express = require('express');
+const fileUpload = require('express-fileupload');
+const routes = require('./routes/myRoutes');
+const path = require('path');
 
 const app = express();
 
-app.get('/user', (req, res) => {
-  res.json({
-    nom: 'Alex',
-    edat: 49,
-    url: req.url,
-  });
+// Enable json parsing
+app.use(express.json());
+
+/*Treat the CORS ERROR*/
+app.use((req, res, next) => {
+  //add certain headers to the response, before we forward the request to the different routes bellow.
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+  );
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Content-Type', 'application/octet-stream');
+  next();
 });
-app.post('/upload', (req, res) => {
-  res.json({
-    nom: 'Alex',
-    edat: 49,
-    url: req.url,
-  });
-});
+/*END of CORS ERROR treating*/
+
+app.use('/upload', express.static(path.join('uploads')));
+app.use(fileUpload({ fileSize: 50 * 1024 * 1024 }));
+app.use('/', routes);
 
 const PORT = 5000;
 app.listen(PORT, () => console.log(`Server is listening to port ${PORT}`));
