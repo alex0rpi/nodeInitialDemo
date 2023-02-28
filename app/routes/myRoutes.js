@@ -1,5 +1,6 @@
 const express = require('express');
 const fileUpload = require('express-fileupload');
+const checkHeader = require('../middlewares/middleware');
 
 const router = express.Router();
 
@@ -24,7 +25,7 @@ router.post('/upload', (req, res) => {
     res.send('### File was uploaded ###');
   });
 });
-router.post('/time', (req, res) => {
+router.post('/time', checkHeader, (req, res) => {
   const { username } = req.body;
   res.json({ username, time: new Date().toLocaleString() });
 });
