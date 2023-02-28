@@ -14,5 +14,6 @@ class List {
   constructor() {
     this._listado = {};
   }
+  // añadir metodos crear etc
 }
 export { List };
