@@ -5,7 +5,6 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon app/app.js",
-    "dev": "nodemon app/app.js",
     "test": "jest"
   },
   "author": "",

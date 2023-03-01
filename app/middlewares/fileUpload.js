@@ -1,4 +1,4 @@
-import multer from 'multer';
+const multer = require('multer');
 
 const MIME_TYPE_MAP = {
   //possible kind of files we might deal with.
@@ -31,4 +31,4 @@ const fileUpload = multer({
   },
 });
 
-export default fileUpload;
+module.exports = fileUpload;
