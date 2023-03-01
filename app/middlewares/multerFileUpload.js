@@ -1,15 +1,15 @@
 const multer = require('multer');
-const path = require('path')
+const path = require('path');
 
 const MIME_TYPE_MAP = { 'image/png': 'png', 'image/jpeg': 'jpeg', 'image/gif': 'gif' };
 
 //file upload middleware.
 /* Multer provides an object containing pre-configured middlewares.*/
 const multerFileUpload = multer({
-  limit: 2000000, // 2MB max size
+  limit: 1000000, // 1MB max size
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, path.join(__dirname, '../images'));
+      cb(null, path.join(__dirname,'../images'));
     },
     filename: (req, file, cb) => {
       const ext = MIME_TYPE_MAP[file.mimetype]; // extract the file extension
@@ -25,4 +25,4 @@ const multerFileUpload = multer({
   },
 });
 
-module.exports = {multerFileUpload};
+module.exports = { multerFileUpload };
