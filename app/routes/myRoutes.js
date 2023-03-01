@@ -10,6 +10,6 @@ router.get('/user', userController);
 
 router.post('/upload', upload);
 
-router.post('/time', [addCacheConctrol, checkHeader], timeController);
+router.post('/time', addCacheConctrol, checkHeader, timeController);
 
 module.exports = router;
