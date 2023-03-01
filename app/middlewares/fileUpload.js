@@ -1,28 +1,21 @@
 const multer = require('multer');
 
-const MIME_TYPE_MAP = {
-  //possible kind of files we might deal with.
-  //multer has a property, mimetype, which can look like the following:
-  'image/png': 'png',
-  'image/jpeg': 'jpeg',
-  'image/jpg': 'jpg',
-};
+const MIME_TYPE_MAP = { 'image/png': 'png', 'image/jpeg': 'jpeg', 'image/gif': 'gif' };
 
 //file upload middleware.
-/*Specifically it is an object that contains multiple middleware.*/
+/* Multer provides an object containing pre-configured middlewares.*/
 const fileUpload = multer({
-  limit: 2000000, // 2MB
+  limit: 2000000, // 2MB max size
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
-      //request object, the file extracted and the call back to execute when it is done.
       cb(null, 'uploads/images');
     },
     filename: (req, file, cb) => {
-      const ext = MIME_TYPE_MAP[file.mimetype];
-      cb(null, new Date().toLocaleDateString() + '.' + ext);
+      const ext = MIME_TYPE_MAP[file.mimetype]; // extract the file extension
+      cb(null, Date.now() + '-' + file.originalname + '.' + ext);
     },
   }),
-  //   Validate file to upload
+  // check that the file multer receives is valid.
   fileFilter: (req, file, cb) => {
     const isValid = !!MIME_TYPE_MAP[file.mimetype];
     /*!! converts "undefined" to false, and "defined", to true*/

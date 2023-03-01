@@ -4,7 +4,6 @@ const path = require('path');
 
 const app = express();
 
-// Enable json parsing
 app.use(express.json());
 
 app.use(express.static('/uploads/images'));

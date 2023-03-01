@@ -1,5 +1,5 @@
 const addCacheConctrol = (req, res, next) => {
-  req.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Cache-Control', 'no-cache');
   next();
 };
 
