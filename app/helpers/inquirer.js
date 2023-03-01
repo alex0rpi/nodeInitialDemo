@@ -1,19 +1,20 @@
-import inquirer from 'inquirer';
-import 'colors';
+import inquirer from "inquirer";
+import "colors";
 
 const questions = [
   {
-    type: 'list',
-    name: 'option',
-    message: 'What do you want to do?',
+    type: "list",
+    name: "option",
+    message: "What do you want to do?",
     choices: [
-      { value: '1', name: `${'1.'.yellow} Create task` },
-      { value: '2', name: `${'2.'.yellow} List all tasks` },
-      { value: '3', name: `${'3.'.yellow} List completed tasks` },
-      { value: '4', name: `${'4.'.yellow} List pending tasks` },
-      { value: '5', name: `${'5.'.yellow} Mark task(s) complete` },
-      { value: '6', name: `${'6.'.yellow} Delete task` },
-      { value: '0', name: `${'0.'.yellow} Exit` },
+      { value: "1", name: `${"1.".yellow} Create task` },
+      { value: "2", name: `${"2.".yellow} List all tasks` },
+      { value: "3", name: `${"3.".yellow} List completed tasks` },
+      { value: "4", name: `${"4.".yellow} List pending tasks` },
+      { value: "5", name: `${"5.".yellow} Mark task(s) complete` },
+      { value: "6", name: `${"6.".yellow} Delete task` },
+      { value: "7", name: `${"7.".yellow} Modify task` },
+      { value: "0", name: `${"0.".yellow} Exit` },
     ],
   },
 ];
@@ -21,9 +22,9 @@ const questions = [
 // Menu principal -------------------------------------------------------------------
 const inquirerMenu = async () => {
   //   console.clear();
-  console.log('======================='.yellow);
-  console.log('   Select an option   '.green);
-  console.log('=======================\n'.yellow);
+  console.log("=======================".yellow);
+  console.log("   Select an option   ".green);
+  console.log("=======================\n".yellow);
 
   // tiene que coincidir el nombre de la const con el "name" en la question (option)
   const { option } = await inquirer.prompt(questions);
@@ -34,9 +35,9 @@ const inquirerMenu = async () => {
 const pause = async () => {
   const question = [
     {
-      type: 'input',
-      name: 'enter',
-      message: `Please ${'ENTER'.red} to continue`,
+      type: "input",
+      name: "enter",
+      message: `Please ${"ENTER".red} to continue`,
     },
   ];
   // console.log('\n');
@@ -46,11 +47,11 @@ const pause = async () => {
 const readInput = async (message) => {
   const question = [
     {
-      type: 'input',
-      name: 'newText',
+      type: "input",
+      name: "newText",
       message,
       validate(value) {
-        if (value.length === 0) return 'Please write something';
+        if (value.length === 0) return "Please write something";
         return true;
       },
     },
@@ -72,14 +73,14 @@ const listDeletableTasks = async (tasks = []) => {
 
   choices.unshift({
     value: 0,
-    name: `${'0.'.green} Cancel`,
+    name: `${"0.".green} Cancel`,
   });
 
   const preguntas = [
     {
-      type: 'list',
-      name: 'id',
-      message: 'Delete',
+      type: "list",
+      name: "id",
+      message: "Delete",
       choices,
     },
   ];
@@ -91,8 +92,8 @@ const listDeletableTasks = async (tasks = []) => {
 const confirm = async (message) => {
   const question = [
     {
-      type: 'confirm',
-      name: 'ok',
+      type: "confirm",
+      name: "ok",
       message,
     },
   ];
@@ -113,14 +114,14 @@ const checklistCompletableTasks = async (tasks = []) => {
 
   choices.unshift({
     value: 0,
-    name: `${'0.'.green} Cancel`,
+    name: `${"0.".green} Cancel`,
   });
 
   const preguntas = [
     {
-      type: 'checkbox',
-      name: 'ids',
-      message: 'Select',
+      type: "checkbox",
+      name: "ids",
+      message: "Select",
       choices,
     },
   ];
@@ -129,4 +130,11 @@ const checklistCompletableTasks = async (tasks = []) => {
   return ids;
 };
 
-export { inquirerMenu, pause, readInput, listDeletableTasks, confirm, checklistCompletableTasks };
+export {
+  inquirerMenu,
+  pause,
+  readInput,
+  listDeletableTasks,
+  confirm,
+  checklistCompletableTasks,
+};
