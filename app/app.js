@@ -14,7 +14,7 @@ const main = async () => {
   let opt = ''; // currently selected option
   const list = new List(); // new instance of task list (should be unique, singleton pattern?)
 
-  const tasksDB = []; // [{},{}]
+  const tasksDB = readInfo(); // [{},{}]
   if (tasksDB) {
     // Load tasks (como un useEffect)
     list.loadTaskArray(tasksDB);
