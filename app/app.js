@@ -23,8 +23,6 @@ app.use((req, res, next) => {
 });
 /*END of CORS ERROR treating*/
 
-app.use('/upload', express.static(path.join('uploads')));
-app.use(fileUpload({ fileSize: 50 * 1024 * 1024 }));
 app.use('/', routes);
 
 const PORT = 5000;

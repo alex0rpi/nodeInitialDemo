@@ -1,6 +1,6 @@
 const express = require('express');
-const fileUpload = require('express-fileupload');
-const checkHeader = require('../middlewares/middleware');
+const checkHeader = require('../middlewares/checkHeaderMdw');
+const multer = require('multer');
 
 const router = express.Router();
 
@@ -11,7 +11,15 @@ router.get('/user', (req, res) => {
     url: req.url,
   });
 });
+
 router.post('/upload', (req, res) => {
+  let storage = multer.diskStorage({
+    destination: '../uploads',
+    filename: (req, file, cb) => {
+      cb(null, `${Date.now().toLocaleString()}--${file.filename}`);
+    },
+  });
+  const upload = multer({storage});
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(400).send('No files were uploaded');
   }
