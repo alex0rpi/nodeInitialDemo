@@ -1,6 +1,6 @@
-const addCacheConctrol = (req, res, next) => {
+const addCacheControl = (req, res, next) => {
   res.setHeader('Cache-Control', 'no-cache');
   next();
 };
 
-module.exports = addCacheConctrol;
+module.exports = addCacheControl;
