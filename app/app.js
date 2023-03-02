@@ -1,4 +1,4 @@
-import 'colors';
+import "colors";
 import {
   inquirerMenu,
   pause,
@@ -6,12 +6,14 @@ import {
   listDeletableTasks,
   confirm,
   checklistCompletableTasks,
-} from './helpers/inquirer.js';
-import { List } from './models/List.js';
-import { saveInfo, readInfo } from './helpers/modifyDB.js';
+} from "./helpers/inquirer.js";
+import { showTask } from "./helpers/showTask.js";
+
+import { List } from "./models/List.js";
+import { saveInfo, readInfo } from "./helpers/modifyDB.js";
 
 const main = async () => {
-  let opt = ''; // currently selected option
+  let opt = ""; // currently selected option
   const list = new List(); // new instance of task list (should be unique, singleton pattern?)
 
   const tasksDB = readInfo(); // [{},{}]
@@ -24,42 +26,45 @@ const main = async () => {
     opt = await inquirerMenu();
     // ----------------------------------------------------
     switch (opt) {
-      case '1':
-        const inputText = await readInput('Description: ');
+      case "1":
+        const inputText = await readInput("Description: ");
         console.log(inputText);
         list.createTask(inputText);
         break;
-      case '2':
+      case "2":
         // console.log(list.listArray); // a un getter o setter se accede como a cualquier propiedad.
         list.listAllTasks();
         break;
-      case '3': // list completed
+      case "3": // list completed
         list.listPendingCompleted(true);
         break;
-      case '4': // list pending
+      case "4": // list pending
         list.listPendingCompleted(false);
         break;
-      case '5': // mark as complete
+      case "5": // mark as complete
         const ids = await checklistCompletableTasks(list.listArray);
         list.markTaskComplete(ids);
         break;
-      case '6': // delete
+      case "6": // delete
         const id = await listDeletableTasks(list.listArray);
         if (!id === 0) {
           // Ask "are you sure?"
-          const ok = await confirm('Are you sure?');
+          const ok = await confirm("Are you sure?");
           if (ok) {
             list.deleteTask(id);
-            console.log('Task was deleted');
+            console.log("Task was deleted");
           }
         }
         break;
-      case '0':
+      case "7": // mostrar taska específica
+        await showTask(list.listArray); //seleccionamos task
+
+      case "0":
         break;
     }
     // ----------------------------------------------------
     saveInfo(list.listArray);
     await pause();
-  } while (opt !== '0');
+  } while (opt !== "0");
 };
 main();

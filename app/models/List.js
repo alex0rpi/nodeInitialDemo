@@ -5,8 +5,8 @@
     { uuid-123712-123123-2: { id:12, description: kjdfhskf, completedIn:"1232134" } },
 */
 
-import { Task } from './Task.js';
-import 'colors';
+import { Task } from "./Task.js";
+import "colors";
 
 class List {
   _taskList = {};
@@ -25,7 +25,7 @@ class List {
     return arrayList;
   }
 
-  deleteTask(id = '') {
+  deleteTask(id = "") {
     if (this._taskList[id]) {
       delete this._taskList[id];
     }
@@ -37,7 +37,7 @@ class List {
     });
   }
 
-  createTask(desc = '') {
+  createTask(desc = "") {
     const task = new Task(desc);
     this._taskList[task.id] = task;
   }
@@ -47,7 +47,7 @@ class List {
     this.listArray.forEach((tarea, i) => {
       const index = `${i + 1}`.green;
       const { description, completedIn } = tarea;
-      const status = completedIn ? 'Completed'.green : 'Pending'.red;
+      const status = completedIn ? "Completed".green : "Pending".red;
       console.log(`${index} ${description} --> ${status}`);
     });
   }
@@ -57,18 +57,20 @@ class List {
     console.log();
     this.listArray.forEach((taskItem) => {
       const { description, completedIn } = taskItem;
-      const status = completedIn ? `Completed: ${taskItem.completedIn}`.green : 'Pending'.red;
+      const status = completedIn
+        ? `Completed: ${taskItem.completedIn}`.green
+        : "Pending".red;
       if (completed) {
         if (completedIn) {
           // show completed
           counter += 1;
-          console.log(`${(counter + '.').green} ${description} --> ${status}`);
+          console.log(`${(counter + ".").green} ${description} --> ${status}`);
         }
       } else {
         if (!completedIn) {
           // show pending
           counter += 1;
-          console.log(`${(counter + '.').green} ${description} --> ${status}`);
+          console.log(`${(counter + ".").green} ${description} --> ${status}`);
         }
       }
     });
@@ -86,6 +88,10 @@ class List {
         this._taskList[taskItem.id].completedIn = null;
       }
     });
+  }
+
+  modificarTarea(idTarea, modificacion, newText) {
+    console.log(idTarea, modificacion, newText);
   }
 }
 export { List };

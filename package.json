@@ -2,7 +2,7 @@
   "name": "nodeinitialdemo",
   "version": "1.0.0",
   "description": "sample project for node",
-  "type":"module",
+  "type": "module",
   "main": "app.js",
   "scripts": {
     "start": "node app/app.js",
