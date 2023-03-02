@@ -9,7 +9,7 @@ const multerFileUpload = multer({
   limit: 1000000, // 1MB max size
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, path.join(__dirname,'../images'));
+      cb(null, '../images');
     },
     filename: (req, file, cb) => {
       const ext = MIME_TYPE_MAP[file.mimetype]; // extract the file extension
