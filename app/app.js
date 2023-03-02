@@ -7,12 +7,8 @@ import {
   confirm,
   checklistCompletableTasks,
 } from "./helpers/inquirer.js";
-import {
-  // imports para modificar tarea
-  listadoSeleccionarTarea,
-  selecionarModificacion,
-  textoInput,
-} from "./helpers/inquirerModificarTarea";
+import { showTask } from "./helpers/showTask.js";
+
 import { List } from "./models/List.js";
 import { saveInfo, readInfo } from "./helpers/modifyDB.js";
 
@@ -60,11 +56,9 @@ const main = async () => {
           }
         }
         break;
-      case "7": // modify task -- por ahora newText y modificacion devuelven udefined
-        const idTarea = await listadoSeleccionarTarea(tareas.listadorArr); // seleccion amos tarea por id
-        const modificacion = await selecionarModificacion(); // selecceionamos qu queremos modificar
-        const newText = await textoInput(); // nuevo texto a introducir
-        List.modificarTarea(idTarea, modificacion, newText);
+      case "7": // mostrar taska específica
+        await showTask(list.listArray); //seleccionamos task
+
       case "0":
         break;
     }
