@@ -14,6 +14,7 @@ const questions = [
       { value: "5", name: `${"5.".yellow} Mark task(s) complete` },
       { value: "6", name: `${"6.".yellow} Delete task` },
       { value: "7", name: `${"7.".yellow} Select specific task` },
+      { value: "8", name: `${"8.".yellow} Select tasks by user` },
       { value: "0", name: `${"0.".yellow} Exit` },
     ],
   },
@@ -44,6 +45,22 @@ const pause = async () => {
   await inquirer.prompt(question);
 };
 
+const registerUser = async user => {
+  const question = [
+    {
+      type: "input",
+      name: "userName",
+      user,
+      validate(value) {
+        if (value.length === 0) return "Please write something";
+        return true;
+      }
+    }
+  ]
+  const { userName } = await inquirer.prompt(question)
+  return userName
+}
+
 const readInput = async (message) => {
   const question = [
     {
@@ -64,6 +81,7 @@ const readInput = async (message) => {
 
 const listDeletableTasks = async (tasks = []) => {
   const choices = tasks.map((taskItem, i) => {
+    console.log(tasks)
     const idx = `${i + 1}.`.green;
     return {
       value: taskItem.id,
@@ -137,4 +155,5 @@ export {
   listDeletableTasks,
   confirm,
   checklistCompletableTasks,
+  registerUser
 };

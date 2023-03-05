@@ -37,8 +37,8 @@ class List {
     });
   }
 
-  createTask(desc = "") {
-    const task = new Task(desc);
+  createTask(name, desc = "") {
+    const task = new Task(name, desc);
     this._taskList[task.id] = task;
   }
 
@@ -46,9 +46,9 @@ class List {
     console.log();
     this.listArray.forEach((tarea, i) => {
       const index = `${i + 1}`.green;
-      const { description, completedIn } = tarea;
+      const { user, description, completedIn } = tarea;
       const status = completedIn ? "Completed".green : "Pending".red;
-      console.log(`${index} ${description} --> ${status}`);
+      console.log(`${index} User:${user}. ${description} --> ${status}`);
     });
   }
 
@@ -56,7 +56,7 @@ class List {
     let counter = 0;
     console.log();
     this.listArray.forEach((taskItem) => {
-      const { description, completedIn } = taskItem;
+      const { user, description, completedIn } = taskItem;
       const status = completedIn
         ? `Completed: ${taskItem.completedIn}`.green
         : "Pending".red;
@@ -64,13 +64,13 @@ class List {
         if (completedIn) {
           // show completed
           counter += 1;
-          console.log(`${(counter + ".").green} ${description} --> ${status}`);
+          console.log(`${(counter + ".").green} User:${user}. ${description} --> ${status}`);
         }
       } else {
         if (!completedIn) {
           // show pending
           counter += 1;
-          console.log(`${(counter + ".").green} ${description} --> ${status}`);
+          console.log(`${(counter + ".").green} User:${user}. ${description} --> ${status}`);
         }
       }
     });
@@ -92,6 +92,10 @@ class List {
 
   modificarTarea(idTarea, modificacion, newText) {
     console.log(idTarea, modificacion, newText);
+  }
+
+  filterUserTask(userName) {
+    return this.listArray.filter(element => element?.user === userName)
   }
 }
 export { List };

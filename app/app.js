@@ -6,8 +6,11 @@ import {
   listDeletableTasks,
   confirm,
   checklistCompletableTasks,
+  registerUser
 } from "./helpers/inquirer.js";
 import { showTask } from "./helpers/showTask.js";
+import { showUsers } from "./helpers/showUsers.js";
+import { showUserTasks } from "./helpers/showUserTasks.js";
 
 import { List } from "./models/List.js";
 import { saveInfo, readInfo } from "./helpers/modifyDB.js";
@@ -27,9 +30,11 @@ const main = async () => {
     // ----------------------------------------------------
     switch (opt) {
       case "1":
+        const userName = await registerUser("User: ")
         const inputText = await readInput("Description: ");
+        console.log(userName)
         console.log(inputText);
-        list.createTask(inputText);
+        list.createTask(userName, inputText);
         break;
       case "2":
         // console.log(list.listArray); // a un getter o setter se accede como a cualquier propiedad.
@@ -58,6 +63,11 @@ const main = async () => {
         break;
       case "7": // mostrar taska específica
         await showTask(list.listArray); //seleccionamos task
+        break;
+      case "8": // mostrar users
+        const user = await showUsers(list.listArray)
+        await showUserTasks(list.filterUserTask(user))
+        break;
 
       case "0":
         break;
