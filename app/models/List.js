@@ -25,6 +25,23 @@ class List {
     return arrayList;
   }
 
+  modifyTask(idTarea, modification, newText) {
+    let idx = idTarea.id;
+    if (modification === 1) {
+      // modify title
+      this._taskList[idx] = {
+        ...this._taskList[idx],
+        title: newText,
+      };
+    } else if (modification === 2) {
+      //modify description
+      this._taskList[idx] = {
+        ...this._taskList[idx],
+        description: newText,
+      };
+    }
+  }
+
   deleteTask(id = "") {
     if (this._taskList[id]) {
       delete this._taskList[id];
@@ -37,8 +54,7 @@ class List {
     });
   }
 
-
-  createTask(name, title="", desc = "") {
+  createTask(name, title = "", desc = "") {
     const task = new Task(name, title, desc);
 
     this._taskList[task.id] = task;
@@ -52,7 +68,6 @@ class List {
       const { user, title, completedIn } = tarea;
       const status = completedIn ? "Completed".green : "Pending".red;
       console.log(`${index} User:${user}. ${title} --> ${status}`);
-
     });
   }
 
@@ -60,7 +75,6 @@ class List {
     let counter = 0;
     console.log();
     this.listArray.forEach((taskItem) => {
-
       const { user, title, completedIn } = taskItem;
 
       const status = completedIn
@@ -71,16 +85,18 @@ class List {
           // show completed
           counter += 1;
 
-          console.log(`${(counter + ".").green} User:${user}. ${title} --> ${status}`);
-
+          console.log(
+            `${(counter + ".").green} User:${user}. ${title} --> ${status}`
+          );
         }
       } else {
         if (!completedIn) {
           // show pending
           counter += 1;
 
-          console.log(`${(counter + ".").green} User:${user}. ${title} --> ${status}`);
-
+          console.log(
+            `${(counter + ".").green} User:${user}. ${title} --> ${status}`
+          );
         }
       }
     });
@@ -100,12 +116,8 @@ class List {
     });
   }
 
-  modificarTarea(idTarea, modificacion, newText) {
-    console.log(idTarea, modificacion, newText);
-  }
-
   filterUserTask(userName) {
-    return this.listArray.filter(element => element?.user === userName)
+    return this.listArray.filter((element) => element?.user === userName);
   }
 }
 export { List };
