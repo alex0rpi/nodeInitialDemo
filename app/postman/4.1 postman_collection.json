@@ -63,13 +63,8 @@
 				"method": "POST",
 				"header": [
 					{
-						"key": "username",
-						"value": "alex",
-						"type": "text"
-					},
-					{
-						"key": "password",
-						"value": "alex123",
+						"key": "authorization",
+						"value": "Basic YWxleDphbGV4MTIz",
 						"type": "text"
 					}
 				],
