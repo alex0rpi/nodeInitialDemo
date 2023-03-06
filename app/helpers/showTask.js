@@ -6,7 +6,7 @@ const showTask = async (tareas) => {
     const idx = `${i + 1}.`.green;
     return {
       value: tarea,
-      name: `${idx} ${tarea.description}`,
+      name: `${idx} ${tarea.title}`,
     };
   });
 
