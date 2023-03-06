@@ -59,7 +59,7 @@ const main = async () => {
         break;
       case "6": // delete
         const id = await listDeletableTasks(list.listArray);
-        if (!id === 0) {
+        if (id !== "0") {
           // Ask "are you sure?"
           const ok = await confirm("Are you sure?");
           if (ok) {

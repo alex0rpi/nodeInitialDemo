@@ -85,7 +85,9 @@ const readInput = async (message) => {
 
 const listDeletableTasks = async (tasks = []) => {
   const choices = tasks.map((taskItem, i) => {
-    console.log(tasks);
+
+    // console.log(tasks)
+
     const idx = `${i + 1}.`.green;
     return {
       value: taskItem.id,
