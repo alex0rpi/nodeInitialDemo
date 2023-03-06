@@ -5,9 +5,11 @@ class Task {
   user = ''
   description = '';
   completedIn = null;
-  constructor(name, description) {
+
+  constructor(name, title, description) {
     this.id = uuidv4();
-    this.user = name
+    this.user = name;
+    this.title = title;
     this.description = description;
     this.completedIn = null;
   }

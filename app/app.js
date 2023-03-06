@@ -30,11 +30,14 @@ const main = async () => {
     // ----------------------------------------------------
     switch (opt) {
       case "1":
-        const userName = await registerUser("User: ")
-        const inputText = await readInput("Description: ");
-        console.log(userName)
-        console.log(inputText);
-        list.createTask(userName, inputText);
+
+        const userName = await registerUser("User: ");
+        console.log(userName);
+        const inputTitle = await readInput("Title: ");
+        console.log(inputTitle);
+        const inputDesc = await readInput("Description: ");
+        list.createTask(userName, inputTitle, inputDesc);
+
         break;
       case "2":
         // console.log(list.listArray); // a un getter o setter se accede como a cualquier propiedad.
