@@ -1,9 +1,8 @@
 const userController = (req, res) => {
-  console.log(req)
   res.json({
     nom: 'Alex',
     edat: 49,
-    url: req.url,
+    url: req.protocol + '://' + req.get('host') + req.originalUrl,
   });
 };
 
