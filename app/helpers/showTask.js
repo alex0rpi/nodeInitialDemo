@@ -25,9 +25,9 @@ const showTask = async (tareas) => {
   ];
   const { id } = await inquirer.prompt(preguntas);
   console.log(
-    `Task: ${id.description.green}, status: ${
-      id.completedIn ? `completed`.green : `incomplet`.red
-    } `
+    `User:${id.user.green} Title: ${id.title.green} Description: ${
+      id.description.green
+    }, status: ${id.completedIn ? `completed`.green : `incomplet`.red} `
   );
 };
 
