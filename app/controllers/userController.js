@@ -1,5 +1,5 @@
 const userController = (req, res) => {
-  res.json({
+  return res.json({
     nom: 'Alex',
     edat: 49,
     url: req.protocol + '://' + req.get('host') + req.originalUrl,
@@ -8,7 +8,7 @@ const userController = (req, res) => {
 
 const timeController = (req, res) => {
   const { username } = req.body;
-  res.json({ username, time: new Date().toLocaleString() });
+  return res.json({ username, time: new Date().toLocaleString() });
 };
 
 module.exports = { userController, timeController };

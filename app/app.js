@@ -13,6 +13,7 @@ app.use(express.json());
 
 app.use('/', routes);
 app.get('*', notFoundController)
+// Afegit aquest endpoint/controlador a suggerència de l'Oriol per donar resposta a qualssevol altra request que no estigui definida a les rutes.
 
 const PORT = 5000;
 app.listen(PORT, () => console.log(`Server is listening to port ${PORT}`));

@@ -26,7 +26,7 @@ const uploadFile = (req, res) => {
   image.mv(uploadPath, (err) => {
     console.log('image was uploaded')
     if (err) return res.status(500).send(err);
-    res.send('File uploaded!');
+    return res.send('File uploaded!');
   });
 };
 
