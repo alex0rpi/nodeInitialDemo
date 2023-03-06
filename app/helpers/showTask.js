@@ -9,12 +9,7 @@ const showTask = async (tareas) => {
       name: `${idx} ${tarea.description}`,
     };
   });
-  //   console.log(choices);
 
-  choices.unshift({
-    value: "0",
-    name: "0.".green + " " + "Cancelar",
-  });
   const preguntas = [
     {
       type: "list",
@@ -29,6 +24,7 @@ const showTask = async (tareas) => {
       id.description.green
     }, status: ${id.completedIn ? `completed`.green : `incomplet`.red} `
   );
+  return id;
 };
 
 export { showTask };

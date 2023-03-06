@@ -6,9 +6,14 @@ import {
   listDeletableTasks,
   confirm,
   checklistCompletableTasks,
-  registerUser
+  registerUser,
 } from "./helpers/inquirer.js";
 import { showTask } from "./helpers/showTask.js";
+import {
+  selectTask,
+  selectModification,
+  textoInput,
+} from "./helpers/modifyTask.js";
 import { showUsers } from "./helpers/showUsers.js";
 import { showUserTasks } from "./helpers/showUserTasks.js";
 
@@ -30,7 +35,6 @@ const main = async () => {
     // ----------------------------------------------------
     switch (opt) {
       case "1":
-
         const userName = await registerUser("User: ");
         console.log(userName);
         const inputTitle = await readInput("Title: ");
@@ -68,9 +72,16 @@ const main = async () => {
         await showTask(list.listArray); //seleccionamos task
         break;
       case "8": // mostrar users
-        const user = await showUsers(list.listArray)
-        await showUserTasks(list.filterUserTask(user))
+        const user = await showUsers(list.listArray);
+        await showUserTasks(list.filterUserTask(user));
         break;
+      case "9": // modify task
+        const idTarea = await selectTask(list.listArray);
+        const modificacion = await selectModification();
+        if (modificacion != 0) {
+          const newText = await textoInput();
+          list.modifyTask(idTarea, modificacion, newText);
+        }
 
       case "0":
         break;
