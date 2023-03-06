@@ -24,7 +24,7 @@ const questions = [
 
 // Menu principal -------------------------------------------------------------------
 const inquirerMenu = async () => {
-  //   console.clear();
+    console.clear();
   console.log('======================='.yellow);
   console.log('   Select an option   '.green);
   console.log('=======================\n'.yellow);

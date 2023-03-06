@@ -3,7 +3,6 @@ import "colors";
 import { List } from "./../models/List.js";
 
 const showUserTasks = async tasks => {
-    console.log(tasks)
     const choices = tasks.map((tarea, i) => {
         const idx = `${i + 1}.`.green;
         return {

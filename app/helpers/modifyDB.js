@@ -7,11 +7,12 @@ const saveInfo = (data) => {
 };
 
 const readInfo = () => {
-  if (!fs.existsSync(filePath)) return null;
+  let result;
+  if (!fs.existsSync(filePath)) result = null;
   const info = fs.readFileSync(filePath, { encoding: 'utf-8' });
-  const data = JSON.parse(info);
-//   console.log(data);
-  return data;
+  if (!info) result = null;
+  result = JSON.parse(info);
+  return result;
 };
 
 export { saveInfo, readInfo };
