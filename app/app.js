@@ -27,9 +27,10 @@ const main = async () => {
     // ----------------------------------------------------
     switch (opt) {
       case "1":
-        const inputText = await readInput("Description: ");
-        console.log(inputText);
-        list.createTask(inputText);
+        const inputTitle = await readInput("Title: ");
+        console.log(inputTitle);
+        const inputDesc = await readInput("Description: ");
+        list.createTask(inputTitle, inputDesc);
         break;
       case "2":
         // console.log(list.listArray); // a un getter o setter se accede como a cualquier propiedad.
