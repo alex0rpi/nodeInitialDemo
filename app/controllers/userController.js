@@ -1,4 +1,5 @@
 const userController = (req, res) => {
+  console.log(req)
   res.json({
     nom: 'Alex',
     edat: 49,
