@@ -7,14 +7,17 @@ const questions = [
     name: 'option',
     message: 'What do you want to do?',
     choices: [
-      { value: '1', name: `${'1.'.yellow} Create task` },
-      { value: '2', name: `${'2.'.yellow} List all tasks` },
-      { value: '3', name: `${'3.'.yellow} List completed tasks` },
-      { value: '4', name: `${'4.'.yellow} List pending tasks` },
-      { value: '5', name: `${'5.'.yellow} Mark task(s) complete` },
-      { value: '6', name: `${'6.'.yellow} Delete task` },
-      { value: '7', name: `${'7.'.yellow} Select specific task` },
-      { value: '0', name: `${'0.'.yellow} Exit` },
+
+      { value: "1", name: `${"1.".yellow} Create task` },
+      { value: "2", name: `${"2.".yellow} List all tasks` },
+      { value: "3", name: `${"3.".yellow} List completed tasks` },
+      { value: "4", name: `${"4.".yellow} List pending tasks` },
+      { value: "5", name: `${"5.".yellow} Mark task(s) complete` },
+      { value: "6", name: `${"6.".yellow} Delete task` },
+      { value: "7", name: `${"7.".yellow} Select specific task` },
+      { value: "8", name: `${"8.".yellow} Select tasks by user` },
+      { value: "0", name: `${"0.".yellow} Exit` },
+
     ],
   },
 ];
@@ -44,6 +47,22 @@ const pause = async () => {
   await inquirer.prompt(question);
 };
 
+const registerUser = async user => {
+  const question = [
+    {
+      type: "input",
+      name: "userName",
+      user,
+      validate(value) {
+        if (value.length === 0) return "Please write something";
+        return true;
+      }
+    }
+  ]
+  const { userName } = await inquirer.prompt(question)
+  return userName
+}
+
 const readInput = async (message) => {
   const question = [
     {
@@ -67,6 +86,7 @@ const readInput = async (message) => {
 
 const listDeletableTasks = async (tasks = []) => {
   const choices = tasks.map((taskItem, i) => {
+    console.log(tasks)
     const idx = `${i + 1}.`.green;
     return {
       value: taskItem.id,
@@ -133,4 +153,14 @@ const checklistCompletableTasks = async (tasks = []) => {
   return ids;
 };
 
-export { inquirerMenu, pause, readInput, listDeletableTasks, confirm, checklistCompletableTasks };
+
+export {
+  inquirerMenu,
+  pause,
+  readInput,
+  listDeletableTasks,
+  confirm,
+  checklistCompletableTasks,
+  registerUser
+};
+
