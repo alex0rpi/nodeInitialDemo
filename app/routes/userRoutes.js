@@ -1,5 +1,5 @@
 const express = require('express');
-const { createPlayer, getPlayers, updatePlayer } = require('../controllers/playerController');
+const { createPlayer, getPlayers, updatePlayer } = require('../controllers/userControllers');
 const router = express.Router();
 
 router.post('/players', createPlayer);
