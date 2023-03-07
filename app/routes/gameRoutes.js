@@ -1,13 +1,25 @@
 const express = require('express');
+const {
+  userPlays,
+  deleteUserGames,
+  getUserGames,
+  getRanking,
+  getWorstPlayer,
+  getBestPlayer,
+} = require('../controllers/gameControllers');
 
 const router = express.Router();
 
+router.post('/games/:id', userPlays); //un jugador/a específic realitza una tirada.
 
-// POST /games/{id}: un jugador/a específic realitza una tirada.
-// DELETE /games/{id}: elimina les tirades del jugador/a.
-// GET /games/{id}: retorna el llistat de jugades per un jugador/a.
-// GET /ranking: retorna un ranking de jugadors/es ordenat per percentatge d'èxits i el percentatge d’èxits mig del conjunt de tots els jugadors/es.
-// GET /ranking/loser: retorna el jugador/a amb pitjor percentatge d’èxit.
-// GET /ranking/winner: retorna el jugador/a amb millor percentatge d’èxit.
+router.delete('/games/:id', deleteUserGames); //elimina les tirades del jugador/a.
+
+router.get('/games/:id', getUserGames); //retorna el llistat de jugades per un jugador.
+
+router.get('/ranking', getRanking); //retorna un ranking de jugadors ordenat per percentatge d'èxits i el percentatge d’èxits mig del conjunt de tots els jugadors.
+
+router.get('/ranking/loser', getWorstPlayer); //retorna el jugador/a amb pitjor percentatge d’èxit.
+
+router.get('/ranking/winner', getBestPlayer); //retorna el jugador/a amb millor percentatge d’èxit.
 
 module.exports = router;

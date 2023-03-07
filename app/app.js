@@ -1,5 +1,6 @@
 const express = require('express');
 const userRoutes = require('./routes/userRoutes');
+const gameRoutes = require('./routes/gameRoutes');
 const db = require('./models');
 require('dotenv').config();
 
@@ -9,6 +10,7 @@ const app = express();
 app.use(express.json());
 
 app.use('/', userRoutes);
+app.use('/', gameRoutes);
 
 const PORT = process.env.PORT || 5000;
 db.sequelize.sync().then(() => {
