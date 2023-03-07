@@ -5,8 +5,8 @@
     { uuid-123712-123123-2: { id:12, description: kjdfhskf, completedIn:"1232134" } },
 */
 
-import { Task } from "./Task.js";
-import "colors";
+import { Task } from './Task.js';
+import 'colors';
 
 class List {
   _taskList = {};
@@ -42,7 +42,7 @@ class List {
     }
   }
 
-  deleteTask(id = "") {
+  deleteTask(id = '') {
     if (this._taskList[id]) {
       delete this._taskList[id];
     }
@@ -54,9 +54,8 @@ class List {
     });
   }
 
-  createTask(name, title = "", desc = "") {
+  createTask(name, title = '', desc = '') {
     const task = new Task(name, title, desc);
-
     this._taskList[task.id] = task;
   }
 
@@ -65,39 +64,49 @@ class List {
     this.listArray.forEach((tarea, i) => {
       const index = `${i + 1}`.green;
 
-      const { user, title, completedIn } = tarea;
-      const status = completedIn ? "Completed".green : "Pending".red;
-      console.log(`${index} User:${user}. ${title} --> ${status}`);
+      const { user, title, startedIn, completedIn } = tarea;
+      const status = completedIn ? 'Completed'.green : 'Pending'.red;
+      const started = !completedIn ? (startedIn ? `- In progress`.yellow : '- Not started'.red) : '';
+      console.log(`${index} User: ${user.cyan} ${title} --> ${status} ${started}`);
     });
   }
 
-  listPendingCompleted(completed = true) {
+  listPendingInProgressCompleted(completed = true) {
     let counter = 0;
     console.log();
     this.listArray.forEach((taskItem) => {
-      const { user, title, completedIn } = taskItem;
+      const { user, title, startedIn, completedIn } = taskItem;
 
-      const status = completedIn
-        ? `Completed: ${taskItem.completedIn}`.green
-        : "Pending".red;
+      const status = completedIn ? `Completed: ${taskItem.completedIn}`.green : 'Pending'.red;
+      const started = startedIn ? `Started: ${taskItem.startedIn}`.yellow : 'Not started'.red;
       if (completed) {
         if (completedIn) {
           // show completed
           counter += 1;
-
-          console.log(
-            `${(counter + ".").green} User:${user}. ${title} --> ${status}`
-          );
+          console.log(`${(counter + '.').green} User: ${user.cyan} ${title} --> ${status}`);
         }
       } else {
         if (!completedIn) {
-          // show pending
+          // show pending (in progress and not started)
           counter += 1;
-
           console.log(
-            `${(counter + ".").green} User:${user}. ${title} --> ${status}`
+            `${(counter + '.').green} User: ${user.cyan} ${title} --> ${status} - ${started}`
           );
         }
+      }
+    });
+  }
+
+  markTaskStarted(ids = []) {
+    ids.forEach((id) => {
+      if (!this._taskList[id].startedIn) {
+        this._taskList[id].startedIn = new Date().toLocaleString();
+      }
+    });
+    // Need to mark everything else as PENDING if not marked as started.
+    this.listArray.forEach((taskItem) => {
+      if (!ids.includes(taskItem.id)) {
+        this._taskList[taskItem.id].startedIn = null;
       }
     });
   }
@@ -106,6 +115,7 @@ class List {
     ids.forEach((id) => {
       if (!this._taskList[id].completedIn) {
         this._taskList[id].completedIn = new Date().toLocaleString();
+        this._taskList[id].startedIn = null;
       }
     });
     // make sure every task NOT MARKED as complete is set to PENDING

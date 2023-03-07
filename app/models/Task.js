@@ -4,6 +4,7 @@ class Task {
   id = '';
   user = ''
   description = '';
+  startedIn = null;
   completedIn = null;
 
   constructor(name, title, description) {
