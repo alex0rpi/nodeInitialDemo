@@ -14,7 +14,7 @@ const questions = [
       { value: "5", name: `${"5.".yellow} Mark task(s) complete` },
       { value: "6", name: `${"6.".yellow} Delete task` },
       { value: "7", name: `${"7.".yellow} Select specific task` },
-      { value: "8", name: `${"8.".yellow} Select tasks by user` },
+      { value: "8", name: `${"8.".yellow} Show tasks by user` },
       { value: "9", name: `${"9.".yellow} Modify task` },
       { value: "0", name: `${"0.".yellow} Exit` },
     ],
