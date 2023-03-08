@@ -1,20 +1,21 @@
-const colors = require('colors')
 const {
-    inquirerMenu,
-    pause,
-    readInput,
-    listDeletableTasks,
-    confirm,
-    checklistStartableTasks,
-    checklistCompletableTasks,
-    registerUser,
-  } = require('./helpers/inquirer.js')
+  inquirerMenu,
+  pause,
+  readInput,
+  listDeletableTasks,
+  confirm,
+  checklistStartableTasks,
+  checklistCompletableTasks,
+  registerUser,
+} = require('./helpers/inquirer.js');
 const { showTask } = require('./helpers/showTask.js');
 const { selectTask, selectModification, textoInput } = require('./helpers/modifyTask.js');
 const { showUsers } = require('./helpers/showUsers.js');
 const { showUserTasks } = require('./helpers/showUserTasks.js');
-const { List } = require('./models/List.js');
 const { saveInfo, readInfo } = require('./helpers/modifyDB.js');
+const { List } = require('./models/List');
+const { seq_createTask } = require('./controllers/sequelize');
+require('dotenv').config();
 
 const main = async () => {
   let opt = ''; // currently selected option
@@ -36,8 +37,9 @@ const main = async () => {
         const inputTitle = await readInput('Title: ');
         console.log(inputTitle);
         const inputDesc = await readInput('Description: ');
-        list.createTask(userName, inputTitle, inputDesc);
-
+        if (process.env.DATABASE === 'json') list.createTask(userName, inputTitle, inputDesc);
+        if (process.env.DATABASE === 'mysql') seq_createTask({user:userName, title:inputTitle, desc:inputDesc})
+        
         break;
       case '2':
         // console.log(list.listArray); // a un getter o setter se accede como a cualquier propiedad.
@@ -59,15 +61,15 @@ const main = async () => {
         break;
       case '7': // delete
         const id = await listDeletableTasks(list.listArray);
-        if (id[0] === 0 || id[0] === undefined) break
-        
-          // Ask "are you sure?"
-          const ok = await confirm('Are you sure?');
-          if (ok) {
-            list.deleteTask(id);
-            console.log('Task was deleted');
-          } else {
-            break
+        if (id[0] === 0 || id[0] === undefined) break;
+
+        // Ask "are you sure?"
+        const ok = await confirm('Are you sure?');
+        if (ok) {
+          list.deleteTask(id);
+          console.log('Task was deleted');
+        } else {
+          break;
         }
         break;
       case '8': // mostrar taska específica
