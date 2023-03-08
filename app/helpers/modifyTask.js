@@ -2,7 +2,7 @@ const inquirer = require('inquirer')
 const colors = require('colors');
 
 const selectTask = async (tareas) => {
-  console.log(tareas);
+
   const choices = tareas.map((tarea, i) => {
     const idx = `${i + 1}.`.green;
     return {
@@ -52,7 +52,7 @@ const selectModification = async () => {
     },
   ];
   const { selection } = await inquirer.prompt(preguntas);
-  //   console.log("selecionarModificacion:::", selection);
+
   return selection;
 };
 

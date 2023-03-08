@@ -101,7 +101,7 @@ class List {
 
   markTaskStarted(ids = []) {
     ids.forEach((id) => {
-      if(!id) return
+      if (!id) return
       if (!this._taskList[id].startedIn) {
         this._taskList[id].startedIn = new Date().toLocaleString();
       }
@@ -116,7 +116,7 @@ class List {
 
   markTaskComplete(ids = []) {
     ids.forEach((id) => {
-      if(!id) return
+      if (!id) return
       if (!this._taskList[id].completedIn) {
         this._taskList[id].completedIn = new Date().toLocaleString();
         this._taskList[id].startedIn = null;

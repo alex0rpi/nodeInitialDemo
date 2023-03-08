@@ -12,7 +12,7 @@ const questions = [
       { value: '3', name: `${'3.'.yellow} List completed tasks` },
       { value: '4', name: `${'4.'.yellow} List pending tasks` },
       { value: '5', name: `${'5.'.yellow} Mark task(s) started` },
-      { value: '6', name: `${'6.'.yellow} Mark task(s) complete` },
+      { value: '6', name: `${'6.'.yellow} Change completed status` },
       { value: '7', name: `${'7.'.yellow} Delete task` },
       { value: '8', name: `${'8.'.yellow} Select specific task` },
       { value: '9', name: `${'9.'.yellow} Select tasks by user` },
