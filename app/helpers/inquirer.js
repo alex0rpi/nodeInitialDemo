@@ -1,4 +1,4 @@
-const inquirer = require('inquirer')
+const inquirer = require('inquirer');
 const colors = require('colors');
 
 const questions = [
@@ -72,7 +72,7 @@ const readInput = async (message) => {
       message,
       validate(value) {
         if (message === 'Title: ') {
-          if (value.length === 0) return 'Please write something';
+          if (value.length === 0 || value.trim() === '') return 'Please write something';
           return true;
         }
         return true;
