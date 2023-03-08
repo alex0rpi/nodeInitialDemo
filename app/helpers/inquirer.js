@@ -19,6 +19,7 @@ const questions = [
       { value: '10', name: `${'10.'.yellow} Modify task` },
       { value: '0', name: `${'0.'.yellow} Exit` },
     ],
+    pageSize: 11
   },
 ];
 
