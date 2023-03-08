@@ -5,8 +5,8 @@
     { uuid-123712-123123-2: { id:12, description: kjdfhskf, completedIn:"1232134" } },
 */
 
-import { Task } from './Task.js';
-import 'colors';
+const { Task } = require('./Task.js');
+const colors = require('colors');
 
 class List {
   _taskList = {};
@@ -130,4 +130,4 @@ class List {
     return this.listArray.filter((element) => element?.user === userName);
   }
 }
-export { List };
+module.exports = { List };

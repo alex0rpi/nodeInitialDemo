@@ -1,4 +1,5 @@
-import { v4 as uuidv4 } from 'uuid';
+const { v4 } = require('uuid');
+const uuidv4 = v4
 
 class Task {
   id = '';
@@ -15,4 +16,4 @@ class Task {
     this.completedIn = null;
   }
 }
-export { Task };
+module.exports = { Task };

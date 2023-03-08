@@ -1,21 +1,20 @@
-import 'colors';
-import {
-  inquirerMenu,
-  pause,
-  readInput,
-  listDeletableTasks,
-  confirm,
-  checklistStartableTasks,
-  checklistCompletableTasks,
-  registerUser,
-} from './helpers/inquirer.js';
-import { showTask } from './helpers/showTask.js';
-import { selectTask, selectModification, textoInput } from './helpers/modifyTask.js';
-import { showUsers } from './helpers/showUsers.js';
-import { showUserTasks } from './helpers/showUserTasks.js';
-
-import { List } from './models/List.js';
-import { saveInfo, readInfo } from './helpers/modifyDB.js';
+const colors = require('colors')
+const {
+    inquirerMenu,
+    pause,
+    readInput,
+    listDeletableTasks,
+    confirm,
+    checklistStartableTasks,
+    checklistCompletableTasks,
+    registerUser,
+  } = require('./helpers/inquirer.js')
+const { showTask } = require('./helpers/showTask.js');
+const { selectTask, selectModification, textoInput } = require('./helpers/modifyTask.js');
+const { showUsers } = require('./helpers/showUsers.js');
+const { showUserTasks } = require('./helpers/showUserTasks.js');
+const { List } = require('./models/List.js');
+const { saveInfo, readInfo } = require('./helpers/modifyDB.js');
 
 const main = async () => {
   let opt = ''; // currently selected option

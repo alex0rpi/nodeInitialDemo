@@ -1,5 +1,5 @@
-import inquirer from "inquirer";
-import "colors";
+const inquirer = require('inquirer')
+const colors = require('colors');
 
 const selectTask = async (tareas) => {
   console.log(tareas);
@@ -71,4 +71,4 @@ const textoInput = async (message) => {
   return newText;
 };
 
-export { selectTask, selectModification, textoInput };
+module.exports = { selectTask, selectModification, textoInput };

@@ -1,5 +1,5 @@
-import inquirer from "inquirer";
-import "colors";
+const inquirer = require('inquirer')
+const colors = require('colors');
 
 const showUsers = async (tareas) => {
     let users = new Set(tareas.map(tarea => tarea.user));
@@ -29,4 +29,4 @@ const showUsers = async (tareas) => {
       }
 };
 
-export { showUsers }
+module.exports = { showUsers }
