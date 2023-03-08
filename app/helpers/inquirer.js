@@ -135,10 +135,10 @@ const checklistCompletableTasks = async (tasks = []) => {
     };
   });
 
-  choices.unshift({
-    value: 0,
-    name: `${'0.'.green} Cancel`,
-  });
+  // choices.unshift({
+  //   // value: 0,
+  //   // name: `${'0.'.green} Cancel`,
+  // });
 
   const preguntas = [
     {
@@ -164,10 +164,10 @@ const checklistStartableTasks = async (tasks = []) => {
     };
   });
 
-  choices.unshift({
-    value: 0,
-    name: `${'0.'.green} Cancel`,
-  });
+  // choices.unshift({
+  //   value: 0,
+  //   name: `${'0.'.green} Cancel`,
+  // });
 
   const preguntas = [
     {
