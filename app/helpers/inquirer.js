@@ -91,7 +91,7 @@ const listDeletableTasks = async (tasks = []) => {
     const idx = `${i + 1}.`.green;
     return {
       value: taskItem.id,
-      name: `${idx} ${taskItem.title}`,
+      name: `${idx} ${taskItem.title}`
     };
   });
 
@@ -102,15 +102,15 @@ const listDeletableTasks = async (tasks = []) => {
 
   const preguntas = [
     {
-      type: 'list',
-      name: 'id',
+      type: 'checkbox',
+      name: 'ids',
       message: 'Delete',
       choices,
     },
   ];
 
-  const { id } = await inquirer.prompt(preguntas);
-  return id;
+  const { ids } = await inquirer.prompt(preguntas);
+  return ids;
 };
 
 const confirm = async (message) => {

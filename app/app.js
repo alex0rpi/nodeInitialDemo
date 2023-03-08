@@ -59,13 +59,15 @@ const main = async () => {
         break;
       case '7': // delete
         const id = await listDeletableTasks(list.listArray);
-        if (id !== '0') {
+        if (id[0] === 0 || id[0] === undefined) break
+        
           // Ask "are you sure?"
           const ok = await confirm('Are you sure?');
           if (ok) {
             list.deleteTask(id);
             console.log('Task was deleted');
-          }
+          } else {
+            break
         }
         break;
       case '8': // mostrar taska específica

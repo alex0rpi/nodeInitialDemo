@@ -42,10 +42,12 @@ class List {
     }
   }
 
-  deleteTask(id = '') {
-    if (this._taskList[id]) {
-      delete this._taskList[id];
-    }
+  deleteTask(ids = []) {
+    ids.forEach((id) => {
+      if (this._taskList[id]) {
+        delete this._taskList[id];
+      }
+    })
   }
 
   loadTaskArray(tasks = []) {
