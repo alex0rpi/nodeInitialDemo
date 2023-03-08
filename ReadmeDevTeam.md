@@ -2,7 +2,7 @@
 
 AIXÔ ES LA branca dev temas de David Sergi i Alex
 
-I això és una altra prova
+I això és una altra prova de merge
 
 ### Project Structure
 
