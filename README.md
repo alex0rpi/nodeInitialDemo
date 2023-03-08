@@ -16,7 +16,11 @@ mysql2 sequelize express
 
 3- arxiu .env-use, treure-li el -use. Conté el nom de la base de dades desitjada.
 
-3- usar comando por consola:
+4- si es el primer cop que s'executa en mysql, en el workbench crear un schema amb el nom de la database
+
+5- En config.json, assegurar-se de què hi figuren els valors correctes de username, password i database (nom del schema creat).
+
+6- usar comando por consola:
     Obrir dos terminals paralels
     En un terminal --> npm run mysql -- per executar el servidor local que comunica amb mysql.
     En l'altre     --> npm start -- Per executar la app
