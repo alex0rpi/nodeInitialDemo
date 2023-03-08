@@ -5,8 +5,8 @@
     { uuid-123712-123123-2: { id:12, description: kjdfhskf, completedIn:"1232134" } },
 */
 
-import { Task } from './Task.js';
-import 'colors';
+const { Task } = require('./Task.js');
+const colors = require('colors');
 
 class List {
   _taskList = {};
@@ -42,10 +42,12 @@ class List {
     }
   }
 
-  deleteTask(id = '') {
-    if (this._taskList[id]) {
-      delete this._taskList[id];
-    }
+  deleteTask(ids = []) {
+    ids.forEach((id) => {
+      if (this._taskList[id]) {
+        delete this._taskList[id];
+      }
+    })
   }
 
   loadTaskArray(tasks = []) {
@@ -99,6 +101,7 @@ class List {
 
   markTaskStarted(ids = []) {
     ids.forEach((id) => {
+      if(!id) return
       if (!this._taskList[id].startedIn) {
         this._taskList[id].startedIn = new Date().toLocaleString();
       }
@@ -113,6 +116,7 @@ class List {
 
   markTaskComplete(ids = []) {
     ids.forEach((id) => {
+      if(!id) return
       if (!this._taskList[id].completedIn) {
         this._taskList[id].completedIn = new Date().toLocaleString();
         this._taskList[id].startedIn = null;
@@ -130,4 +134,4 @@ class List {
     return this.listArray.filter((element) => element?.user === userName);
   }
 }
-export { List };
+module.exports = { List };

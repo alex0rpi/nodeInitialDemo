@@ -1,4 +1,4 @@
-import fs from 'fs';
+const fs = require('fs');
 
 const filePath = './app/db/data.json';
 
@@ -8,11 +8,11 @@ const saveInfo = (data) => {
 
 const readInfo = () => {
   let result;
-  if (!fs.existsSync(filePath)) result = null;
+  if (!fs.existsSync(filePath)) result = [];
   const info = fs.readFileSync(filePath, { encoding: 'utf-8' });
-  if (!info) result = null;
+  if (!info) return result = null;
   result = JSON.parse(info);
   return result;
 };
 
-export { saveInfo, readInfo };
+module.exports = { saveInfo, readInfo };

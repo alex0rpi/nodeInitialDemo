@@ -2,7 +2,6 @@
   "name": "nodeinitialdemo",
   "version": "1.0.0",
   "description": "sample project for node",
-  "type": "module",
   "main": "app.js",
   "scripts": {
     "start": "node app/app.js",
@@ -17,7 +16,7 @@
   },
   "dependencies": {
     "colors": "^1.4.0",
-    "inquirer": "^9.1.4",
+    "inquirer": "^8.2.5",
     "uuid": "^9.0.0"
   }
 }

@@ -1,5 +1,5 @@
-import inquirer from 'inquirer';
-import 'colors';
+const inquirer = require('inquirer');
+const colors = require('colors');
 
 const questions = [
   {
@@ -19,6 +19,7 @@ const questions = [
       { value: '10', name: `${'10.'.yellow} Modify task` },
       { value: '0', name: `${'0.'.yellow} Exit` },
     ],
+    pageSize: 11
   },
 ];
 
@@ -71,7 +72,7 @@ const readInput = async (message) => {
       message,
       validate(value) {
         if (message === 'Title: ') {
-          if (value.length === 0) return 'Please write something';
+          if (value.length === 0 || value.trim() === '') return 'Please write something';
           return true;
         }
         return true;
@@ -90,7 +91,7 @@ const listDeletableTasks = async (tasks = []) => {
     const idx = `${i + 1}.`.green;
     return {
       value: taskItem.id,
-      name: `${idx} ${taskItem.title}`,
+      name: `${idx} ${taskItem.title}`
     };
   });
 
@@ -101,15 +102,15 @@ const listDeletableTasks = async (tasks = []) => {
 
   const preguntas = [
     {
-      type: 'list',
-      name: 'id',
+      type: 'checkbox',
+      name: 'ids',
       message: 'Delete',
       choices,
     },
   ];
 
-  const { id } = await inquirer.prompt(preguntas);
-  return id;
+  const { ids } = await inquirer.prompt(preguntas);
+  return ids;
 };
 
 const confirm = async (message) => {
@@ -135,10 +136,10 @@ const checklistCompletableTasks = async (tasks = []) => {
     };
   });
 
-  choices.unshift({
-    value: 0,
-    name: `${'0.'.green} Cancel`,
-  });
+  // choices.unshift({
+  //   // value: 0,
+  //   // name: `${'0.'.green} Cancel`,
+  // });
 
   const preguntas = [
     {
@@ -164,10 +165,10 @@ const checklistStartableTasks = async (tasks = []) => {
     };
   });
 
-  choices.unshift({
-    value: 0,
-    name: `${'0.'.green} Cancel`,
-  });
+  // choices.unshift({
+  //   value: 0,
+  //   name: `${'0.'.green} Cancel`,
+  // });
 
   const preguntas = [
     {
@@ -182,7 +183,7 @@ const checklistStartableTasks = async (tasks = []) => {
   return ids;
 };
 
-export {
+module.exports = {
   inquirerMenu,
   pause,
   readInput,

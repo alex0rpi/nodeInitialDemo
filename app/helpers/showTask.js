@@ -1,5 +1,5 @@
-import inquirer from "inquirer";
-import "colors";
+const inquirer = require('inquirer')
+const colors = require('colors');
 
 const showTask = async (tareas) => {
   const choices = tareas.map((tarea, i) => {
@@ -27,4 +27,4 @@ const showTask = async (tareas) => {
   return id;
 };
 
-export { showTask };
+module.exports = { showTask };

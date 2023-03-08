@@ -1,4 +1,4 @@
-import "colors";
+const colors = require('colors');
 
 const showUserTasks = async tasks => {
      tasks.map((tarea, i) => {
@@ -9,4 +9,4 @@ const showUserTasks = async tasks => {
     });
 }
 
-export { showUserTasks };
+module.exports = { showUserTasks };
