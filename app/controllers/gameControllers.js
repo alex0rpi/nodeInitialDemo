@@ -37,25 +37,22 @@ const getUserGames = async (req, res) => {
 };
 
 const getRanking = async (req, res) => {
-  // get number of games won by each player1
   const playersArray = await Users.findAll({ raw: true });
-  console.log(playersArray);
-  const playersWinRatio = await playersArray.map(async (player) => {
+  // console.log(playersArray);
+  let rankingArray = [];
+  playersArray.map(async (player) => {
     const gamesWon = await Partides.count({ where: { UserId: player.id, guanya: 1 } });
     const totalPlayed = await Partides.count({ where: { UserId: player.id } });
-    let playerWinPercentage;
-    if (totalPlayed === 0) {
-      playerWinPercentage = 0;
-    } else {
-      playerWinPercentage = (gamesWon / totalPlayed) * 100;
-    }
+    let playerWinPercentage = 0;
+    if (!totalPlayed === 0) playerWinPercentage = (gamesWon / totalPlayed) * 100;
+
     console.log(playerWinPercentage);
     return {
       player: player.username,
       winPercentage: playerWinPercentage,
     };
   });
-  return res.status(202).json(playersWinRatio);
+  return res.status(202).json(rankingArray);
 };
 
 const getWorstPlayer = (req, res) => {};
