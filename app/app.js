@@ -38,7 +38,7 @@ const main = async () => {
         console.log(inputTitle);
         const inputDesc = await readInput('Description: ');
         if (process.env.DATABASE === 'json') list.createTask(userName, inputTitle, inputDesc);
-        if (process.env.DATABASE === 'mysql') seq_createTask({user:userName, title:inputTitle, desc:inputDesc})
+        if (process.env.DATABASE === 'mysql') seq_createTask({user:userName, title:inputTitle, description:inputDesc})
         
         break;
       case '2':
