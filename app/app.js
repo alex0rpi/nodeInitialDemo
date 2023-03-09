@@ -86,7 +86,7 @@ const main = async () => {
         break;
       case "8": // mostrar taska específica
         if (process.env.DATABASE === "json") await showTask(list.listArray);
-        if (process.env.DATABASE === "mysql") seq_showTask();
+        if (process.env.DATABASE === "mysql") await seq_showTask();
 
         break;
       case "9": // mostrar users
