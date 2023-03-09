@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "root",
-    "password": "",
+    "password": "gatomies2022!",
     "database": "4.2api_daus",
     "host": "127.0.0.1",
     "dialect": "mysql"

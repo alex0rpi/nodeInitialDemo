@@ -33,26 +33,31 @@ const getUserGames = async (req, res) => {
     // { raw: true },
     { where: { UserId: existingUser.id } }
   );
-  return res.status(200).json({ userGames, message: `Show games for ${existingUser.username}` });
+  return res.status(200).json({ message: `Show games for ${existingUser.username}`, userGames });
 };
 
 const getRanking = async (req, res) => {
-  const playersArray = await Users.findAll({ raw: true });
-  // console.log(playersArray);
-  let rankingArray = [];
-  playersArray.map(async (player) => {
-    const gamesWon = await Partides.count({ where: { UserId: player.id, guanya: 1 } });
-    const totalPlayed = await Partides.count({ where: { UserId: player.id } });
-    let playerWinPercentage = 0;
-    if (!totalPlayed === 0) playerWinPercentage = (gamesWon / totalPlayed) * 100;
-
-    console.log(playerWinPercentage);
-    return {
-      player: player.username,
-      winPercentage: playerWinPercentage,
-    };
+  const users = await Users.findAll({ raw: true });
+  console.log(users)
+  users.forEach(async (user) => {
+    // console.log(user.id)
+    numberOfWins = await Partides.count({ where: { UserId: user.id} });
+    console.log(`Player ${user.username} has played ${} times`)
   });
-  return res.status(202).json(rankingArray);
+  // console.log(playersArray);
+  // const rankingArray = playersArray.map(async (player) => {
+  //   const gamesWon = await Partides.count({ where: { UserId: player.id, guanya: 1 } });
+  //   const totalPlayed = await Partides.count({ where: { UserId: player.id } });
+  //   let playerWinPercentage = 0;
+  //   if (!totalPlayed === 0) playerWinPercentage = (gamesWon / totalPlayed) * 100;
+
+  //   console.log(playerWinPercentage);
+  //   return {
+  //     player: player.username,
+  //     winPercentage: playerWinPercentage,
+  //   };
+  // });
+  return res.status(202).json({ message: 'done' });
 };
 
 const getWorstPlayer = (req, res) => {};
