@@ -36,29 +36,43 @@ const getUserGames = async (req, res) => {
   return res.status(200).json({ message: `Show games for ${existingUser.username}`, userGames });
 };
 
+// Aquesta solució ⬇ ⬇, que empra programació "imperativa", requereix de més queries a la base de dades, cosa que podria perjudicar el rendiment de la app.
 const getRanking = async (req, res) => {
-  const users = await Users.findAll({ raw: true });
-  console.log(users)
-  users.forEach(async (user) => {
-    // console.log(user.id)
-    numberOfWins = await Partides.count({ where: { UserId: user.id} });
-    console.log(`Player ${user.username} has played ${} times`)
-  });
-  // console.log(playersArray);
-  // const rankingArray = playersArray.map(async (player) => {
-  //   const gamesWon = await Partides.count({ where: { UserId: player.id, guanya: 1 } });
-  //   const totalPlayed = await Partides.count({ where: { UserId: player.id } });
-  //   let playerWinPercentage = 0;
-  //   if (!totalPlayed === 0) playerWinPercentage = (gamesWon / totalPlayed) * 100;
-
-  //   console.log(playerWinPercentage);
-  //   return {
-  //     player: player.username,
-  //     winPercentage: playerWinPercentage,
-  //   };
-  // });
-  return res.status(202).json({ message: 'done' });
+  try {
+    const users = await Users.findAll({ raw: true });
+    // console.log(users);
+    let rankingArray = [];
+    // users.forEach(async (user) => { // for each seems it doesn't allow to await promises
+    for (let user of users) {
+      // for...of loop allows the await keyword to be used on the async functions within it.
+      let winRatio = 0;
+      numberOfGames = await Partides.count({ where: { UserId: user.id } });
+      numberOfWins = await Partides.count({ where: { UserId: user.id, guanya: true } });
+      if (!(numberOfGames === 0)) winRatio = numberOfWins / numberOfGames;
+      rankingArray.push({
+        player: user.username,
+        winRatio: +winRatio,
+        description: `${numberOfWins} wins out of ${numberOfGames} games played`,
+      });
+    }
+    let meanWinRatio = 0;
+    const resultRanking = rankingArray
+      .sort((a, b) => b.winRatio - a.winRatio)
+      .map((player) => {
+        meanWinRatio += player.winRatio;
+        return {
+          ...player,
+          winRatio: `${(player.winRatio * 100).toFixed(2)}%`,
+        };
+      });
+    meanWinRatio = `${((meanWinRatio / users.length)*100).toFixed(2)}%`;
+    return res.status(202).json({ message: 'raking', meanWinRatio, resultRanking });
+  } catch (error) {
+    return res.status(500).json({ message: 'error', error });
+  }
 };
+
+// Aquesta solució ⬇ ⬇, empra programació "declarativa", i només realitza una sola crida a la base de dades. Això, si, la querie queda bastant complexa.
 
 const getWorstPlayer = (req, res) => {};
 
