@@ -1,4 +1,4 @@
-const { Task } = require('../models/sequelize');
+const { Task } = require("../models/sequelize");
 
 const seq_createTask = async (taskData) => {
   const { user, title, description } = taskData;
@@ -7,12 +7,12 @@ const seq_createTask = async (taskData) => {
       user,
       title,
       description,
-      status: 'pending',
+      status: "pending",
     });
   } catch (error) {
     console.log(error);
     console.log({
-      message: 'Something went wrong',
+      message: "Something went wrong",
       data: {},
     });
   }
@@ -27,14 +27,16 @@ const seq_listTasks = async () => {
       const started = !task.completedIn
         ? task.startedIn
           ? `- In progress`.yellow
-          : '- Not started'.red
-        : '';
-      console.log(`${index} User: ${task.user.cyan} ${task.title} --> ${task.status} ${started}`);
+          : "- Not started".red
+        : "";
+      console.log(
+        `${index} User: ${task.user.cyan} ${task.title} --> ${task.status} ${started}`
+      );
     });
   } catch (error) {
     console.log(error);
     console.log({
-      message: 'Something went wrong',
+      message: "Something went wrong",
       data: {},
     });
   }
