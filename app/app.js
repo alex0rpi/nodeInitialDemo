@@ -13,8 +13,8 @@ const { selectTask, selectModification, textoInput } = require('./helpers/modify
 const { showUsers } = require('./helpers/showUsers.js');
 const { showUserTasks } = require('./helpers/showUserTasks.js');
 const { saveInfo, readInfo } = require('./helpers/modifyDB.js');
-const { List } = require('./models/List');
-const { seq_createTask } = require('./controllers/sequelize');
+const { List } = require('./models/json/List');
+const { seq_createTask, seq_listTasks } = require('./controllers/sequelize');
 require('dotenv').config();
 
 const main = async () => {
@@ -38,12 +38,14 @@ const main = async () => {
         console.log(inputTitle);
         const inputDesc = await readInput('Description: ');
         if (process.env.DATABASE === 'json') list.createTask(userName, inputTitle, inputDesc);
-        if (process.env.DATABASE === 'mysql') seq_createTask({user:userName, title:inputTitle, description:inputDesc})
-        
+        if (process.env.DATABASE === 'mysql')
+          seq_createTask({ user: userName, title: inputTitle, description: inputDesc });
+
         break;
       case '2':
-        // console.log(list.listArray); // a un getter o setter se accede como a cualquier propiedad.
-        list.listAllTasks();
+        if (process.env.DATABASE === 'json') list.listAllTasks();
+        if (process.env.DATABASE === 'mysql') seq_listTasks();
+
         break;
       case '3': // list completed
         list.listPendingInProgressCompleted(true);
