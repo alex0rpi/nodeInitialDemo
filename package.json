@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node app/app.js",
-    "mysql": "nodemon app/index.js",
+    "mysql": "node app/index.js",
+    "dev-mysql": "nodemon app/index.js",
     "test": "jest"
   },
   "author": "",

@@ -20,6 +20,7 @@ const { saveInfo, readInfo } = require("./helpers/modifyDB.js");
 const { List } = require("./models/json/List");
 const { seq_createTask, seq_listTasks } = require("./controllers/sequelize");
 const { seq_showTask } = require("./controllers/seq_showTask.js");
+const {seq_showUserTasks} = require("./controllers/seq_showUserTasks.js")
 require("dotenv").config();
 
 const main = async () => {
@@ -90,8 +91,11 @@ const main = async () => {
 
         break;
       case "9": // mostrar users
-        const user = await showUsers(list.listArray);
-        await showUserTasks(list.filterUserTask(user));
+        if (process.env.DATABASE === "json") {
+          const user = await showUsers(list.listArray);
+          await showUserTasks(list.filterUserTask(user));
+        }
+        if (process.env.DATABASE === "mysql") await seq_showUserTasks()
         break;
       case "10": // modify task
         const idTarea = await selectTask(list.listArray);
