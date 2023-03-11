@@ -1,4 +1,7 @@
 const { Task } = require("../models/sequelize");
+const { showUsers } = require("../helpers/showUsers.js");
+const { showUserTasks } = require("../helpers/showUserTasks.js");
+const { listDeletableTasks } = require("./../helpers/inquirer.js")
 
 const seq_createTask = async (taskData) => {
   const { user, title, description } = taskData;
@@ -42,4 +45,19 @@ const seq_listTasks = async () => {
   }
 };
 
-module.exports = { seq_createTask, seq_listTasks };
+const seq_showUserTasks = async () => {
+  const tasks = await Task.findAll();
+  const userString = await showUsers(tasks);
+  const userTasks = tasks.filter((element => element.user === userString))
+  return await showUserTasks(userTasks)
+};
+
+const seq_deletableTasks = async() => {
+  const tasks = await Task.findAll()
+  const id = listDeletableTasks(tasks)
+  return id
+}
+
+const seq_deleteTask = async(ids = []) => await Task.destroy({where: {id: ids}})
+
+module.exports = { seq_createTask, seq_listTasks, seq_showUserTasks, seq_deletableTasks, seq_deleteTask };

@@ -18,9 +18,10 @@ const { showUsers } = require("./helpers/showUsers.js");
 const { showUserTasks } = require("./helpers/showUserTasks.js");
 const { saveInfo, readInfo } = require("./helpers/modifyDB.js");
 const { List } = require("./models/json/List");
-const { seq_createTask, seq_listTasks } = require("./controllers/sequelize");
+const { seq_createTask, seq_listTasks, seq_showUserTasks, seq_deleteTask, seq_deletableTasks } = require("./controllers/sequelize");
 const { seq_showTask } = require("./controllers/seq_showTask.js");
-const {seq_showUserTasks} = require("./controllers/seq_showUserTasks.js")
+// const {seq_deletableTasks, seq_deleteTask} = require("./controllers/seq_deleteTask.js")
+
 require("dotenv").config();
 
 const main = async () => {
@@ -75,17 +76,33 @@ const main = async () => {
         list.markTaskComplete(ids);
         break;
       case "7": // delete
-        const id = await listDeletableTasks(list.listArray);
-        if (id[0] === 0 || id[0] === undefined) break;
+        console.log(process.env.DATABASE)
+        if (process.env.DATABASE === "json") {
+          const id = await listDeletableTasks(list.listArray);
+          if (id[0] === 0 || id[0] === undefined) break;
+          const ok = await confirm("Are you sure?");
+          if (ok) {
+            list.deleteTask(id);
+            console.log("Task was deleted");
+          } else {
+            break;
+          }
+        }
+        if (process.env.DATABASE === "mysql") {
+          const id = await seq_deletableTasks()
+          if (id[0] === 0 || id[0] === undefined) break;
+          const ok = await confirm("Are you sure?");
+          if (ok) {
+            await seq_deleteTask(id)
+            console.log('Task was deleted')
+          } else {
+            break
+          }
+          
+        }
+        
 
         // Ask "are you sure?"
-        const ok = await confirm("Are you sure?");
-        if (ok) {
-          list.deleteTask(id);
-          console.log("Task was deleted");
-        } else {
-          break;
-        }
         break;
       case "8": // mostrar taska específica
         if (process.env.DATABASE === "json") await showTask(list.listArray);
