@@ -4,9 +4,12 @@
   "description": "sample project for node",
   "main": "app.js",
   "scripts": {
-    "start": "node app/app.js",
-    "mysql": "node app/index.js",
-    "dev-mysql": "nodemon app/index.js",
+    "json": "set DATABASE=json&& node app/app.js",
+    "dev-json": "set DATABASE=json&& nodemon app/app.js",
+    "mysql": "set DATABASE=mysql&& node app/app.js",
+    "dev-mysql": "set DATABASE=mysql&& nodemon app/app.js",
+    "mysql-server": "set DATABASE=mysql&& node app/index.js",
+    "dev-mysql-server": "set DATABASE=mysql&& nodemon app/index.js",
     "test": "jest"
   },
   "author": "",

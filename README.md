@@ -14,16 +14,17 @@ UUID, colors, inquirer
 dependencies sequelize:
 mysql2 sequelize express
 
-3- arxiu .env-use, treure-li el -use. Conté el nom de la base de dades desitjada.
-Especificar una de les 3 opcions: json, mysql, mongodb
+3- arxiu .env-template, treure-li el -template. (Ya no hace falta especificar manualmente que base de datos se quiere usar)
 
 4- si es el primer cop que s'executa en mysql, en el workbench crear un schema amb el nom de la database
 
-5- En config.json, assegurar-se de què hi figuren els valors correctes de username, password i database (nom del schema creat).
+5- En config.json, assegurar-se de què hi figuren els valors correctes de username, password, database (nom del schema creat) y host (host del server de mysql donde esté la base de datos creada anteriormente).
 
 6- usar comando por consola:
-    En cas que el .env DATABASE NO SIGUI JSON, obrir dos terminals paralels
-    En un terminal --> npm run mysql -- per executar el servidor local que comunica amb mysql.
-    En l'altre     --> npm start -- Per executar la app
+    -En cas d'escollir la base de dades json, en una terminal usar comando --> npm run json
+
+    -En cas de escollir la basde de dades mysql, obrir dos terminals paralels
+     En un terminal --> npm run mysql-server -- per executar el servidor local que comunica amb mysql.
+     En l'altre     --> npm run mysql -- Per executar la app
 
 De moment només permet triar l'opció 1, crear tasca, i si .env DATABASE = mysql anirà a omplir la taula de tasques.
