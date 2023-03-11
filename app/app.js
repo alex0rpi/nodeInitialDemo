@@ -93,12 +93,9 @@ const main = async () => {
       case "9": // mostrar users
         if (process.env.DATABASE === "json") {
           const user = await showUsers(list.listArray);
-          console.log(user)
           await showUserTasks(list.filterUserTask(user));
         }
-        if (process.env.DATABASE === "mysql") {
-          await seq_showUserTasks()
-        } 
+        if (process.env.DATABASE === "mysql") await seq_showUserTasks()
         break;
       case "10": // modify task
         const idTarea = await selectTask(list.listArray);
