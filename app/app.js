@@ -7,129 +7,141 @@ const {
   checklistStartableTasks,
   checklistCompletableTasks,
   registerUser,
-} = require("./helpers/inquirer.js");
-const { showTask } = require("./helpers/showTask.js");
+} = require("./helpers/inquirer.js")
+const { showTask } = require("./helpers/showTask.js")
 const {
   selectTask,
   selectModification,
   textoInput,
-} = require("./helpers/modifyTask.js");
-const { showUsers } = require("./helpers/showUsers.js");
-const { showUserTasks } = require("./helpers/showUserTasks.js");
-const { saveInfo, readInfo } = require("./helpers/modifyDB.js");
-const { List } = require("./models/json/List");
-const { seq_createTask, seq_listTasks, seq_showUserTasks, seq_deleteTask, seq_deletableTasks } = require("./controllers/sequelize");
-const { seq_showTask } = require("./controllers/seq_showTask.js");
+} = require("./helpers/modifyTask.js")
+const { showUsers } = require("./helpers/showUsers.js")
+const { showUserTasks } = require("./helpers/showUserTasks.js")
+const { saveInfo, readInfo } = require("./helpers/modifyDB.js")
+const { List } = require("./models/json/List")
+const {
+  seq_createTask,
+  seq_listTasks,
+  seq_showUserTasks,
+  seq_deleteTask,
+  seq_deletableTasks,
+} = require("./controllers/sequelize")
+const { Task } = require("./models/sequelize")
+const { seq_modifyTask } = require("./controllers/seq_modifyTask.js")
+
 // const {seq_deletableTasks, seq_deleteTask} = require("./controllers/seq_deleteTask.js")
 
-require("dotenv").config();
+require("dotenv").config()
 
 const main = async () => {
-  let opt = ""; // currently selected option
-  const list = new List();
+  let opt = "" // currently selected option
+  const list = new List()
 
-  const tasksDB = readInfo(); // [{},{}]
+  const tasksDB = readInfo() // [{},{}]
   if (tasksDB) {
     // Load tasks (como un useEffect)
-    list.loadTaskArray(tasksDB);
+    list.loadTaskArray(tasksDB)
   }
 
   do {
-    opt = await inquirerMenu();
+    opt = await inquirerMenu()
     // ----------------------------------------------------
     switch (opt) {
       case "1":
-        const userName = await registerUser("User: ");
-        console.log(userName);
-        const inputTitle = await readInput("Title: ");
-        console.log(inputTitle);
-        const inputDesc = await readInput("Description: ");
-        if (process.env.DATABASE === "json"){
-          list.createTask(userName, inputTitle, inputDesc);
+        const userName = await registerUser("User: ")
+        console.log(userName)
+        const inputTitle = await readInput("Title: ")
+        console.log(inputTitle)
+        const inputDesc = await readInput("Description: ")
+        if (process.env.DATABASE === "json") {
+          list.createTask(userName, inputTitle, inputDesc)
         }
         if (process.env.DATABASE === "mysql") {
           seq_createTask({
             user: userName,
             title: inputTitle,
             description: inputDesc,
-          });
+          })
         }
 
-        break;
+        break
       case "2":
-        if (process.env.DATABASE === "json") list.listAllTasks();
-        if (process.env.DATABASE === "mysql") seq_listTasks();
+        if (process.env.DATABASE === "json") list.listAllTasks()
+        if (process.env.DATABASE === "mysql") seq_listTasks()
 
-        break;
+        break
       case "3": // list completed
-        list.listPendingInProgressCompleted(true);
-        break;
+        list.listPendingInProgressCompleted(true)
+        break
       case "4": // list pending (including started)
-        list.listPendingInProgressCompleted(false);
-        break;
+        list.listPendingInProgressCompleted(false)
+        break
       case "5": // mark as started(in progress)
-        const taskIds = await checklistStartableTasks(list.listArray);
-        list.markTaskStarted(taskIds);
-        break;
+        const taskIds = await checklistStartableTasks(list.listArray)
+        list.markTaskStarted(taskIds)
+        break
       case "6": // mark as complete
-        const ids = await checklistCompletableTasks(list.listArray);
-        list.markTaskComplete(ids);
-        break;
+        const ids = await checklistCompletableTasks(list.listArray)
+        list.markTaskComplete(ids)
+        break
       case "7": // delete
         console.log(process.env.DATABASE)
         if (process.env.DATABASE === "json") {
-          const id = await listDeletableTasks(list.listArray);
-          if (id[0] === 0 || id[0] === undefined) break;
-          const ok = await confirm("Are you sure?");
+          const id = await listDeletableTasks(list.listArray)
+          if (id[0] === 0 || id[0] === undefined) break
+          const ok = await confirm("Are you sure?")
           if (ok) {
-            list.deleteTask(id);
-            console.log("Task was deleted");
+            list.deleteTask(id)
+            console.log("Task was deleted")
           } else {
-            break;
+            break
           }
         }
         if (process.env.DATABASE === "mysql") {
           const id = await seq_deletableTasks()
-          if (id[0] === 0 || id[0] === undefined) break;
-          const ok = await confirm("Are you sure?");
+          if (id[0] === 0 || id[0] === undefined) break
+          const ok = await confirm("Are you sure?")
           if (ok) {
             await seq_deleteTask(id)
-            console.log('Task was deleted')
+            console.log("Task was deleted")
           } else {
             break
           }
-          
         }
-        
 
         // Ask "are you sure?"
-        break;
+        break
       case "8": // mostrar taska específica
-        if (process.env.DATABASE === "json") await showTask(list.listArray);
-        if (process.env.DATABASE === "mysql") await seq_showTask();
-
-        break;
+        if (process.env.DATABASE === "json") await showTask(list.listArray)
+        if (process.env.DATABASE === "mysql") {
+          const tasks = await Task.findAll()
+          await showTask(tasks)
+        }
+        break
       case "9": // mostrar users
         if (process.env.DATABASE === "json") {
-          const user = await showUsers(list.listArray);
-          await showUserTasks(list.filterUserTask(user));
+          const user = await showUsers(list.listArray)
+          await showUserTasks(list.filterUserTask(user))
         }
         if (process.env.DATABASE === "mysql") await seq_showUserTasks()
-        break;
+        break
       case "10": // modify task
-        const idTarea = await selectTask(list.listArray);
-        const modificacion = await selectModification();
-        if (modificacion != 0) {
-          const newText = await textoInput();
-          list.modifyTask(idTarea, modificacion, newText);
+        if (process.env.DATABASE === "json") {
+          const idTarea = await selectTask(list.listArray)
+          const modificacion = await selectModification()
+          if (modificacion != 0) {
+            const newText = await textoInput()
+            list.modifyTask(idTarea, modificacion, newText)
+          }
         }
-
+        if (process.env.DATABASE === "mysql") {
+          await seq_modifyTask()
+        }
       case "0":
-        break;
+        break
     }
     // ----------------------------------------------------
-    saveInfo(list.listArray);
-    await pause();
-  } while (opt !== "0");
-};
-main();
+    saveInfo(list.listArray)
+    await pause()
+  } while (opt !== "0")
+}
+main()
