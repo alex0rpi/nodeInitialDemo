@@ -62,8 +62,8 @@ const seq_deleteTask = async (ids = []) => await Task.destroy({ where: { id: ids
 const seq_startableTasks = async () => {
   const tasks = await Task.findAll({
     where: {
-      // startedIn: null,
       status: 'pending',
+      completedIn: null,
     },
     raw: true,
   });
@@ -72,13 +72,40 @@ const seq_startableTasks = async () => {
 
 const seq_markTaskStarted = async (selectedIds = []) => {
   try {
-    const date = new Date().toISOString();
+    const d = new Date();
+    const date = d.toISOString();
     const updated = await Task.update({ startedIn: date }, { where: { id: selectedIds } });
     if (updated === 0) console.log('No tasks marked as started');
     if (updated === 1) console.log('Task marked as started (in progress)');
     if (updated > 1) console.log('Tasks marked as started (in progress)');
-    // Mark the rest of tasks as NULL at startedIn.
-    await Task.update({ startedIn: null }, { where: { id: { [Op.notIn]: selectedIds } } });
+    // Mark the rest of tasks as startedIn:Null and status:"pending".
+    await Task.update(
+      { startedIn: null, status: 'pending' },
+      { where: { id: { [Op.notIn]: selectedIds } } }
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const seq_listPendingTasks = async () => {
+  try {
+    const tasks = await Task.findAll({
+      where: {
+        status: 'pending',
+      },
+      raw: true,
+    });
+    let counter = 0;
+    console.log() // Go to next line
+    tasks.forEach((taskItem, i) => {
+      counter += 1;
+      const { user, title, status, startedIn } = taskItem;
+      const started = startedIn ? `Started: ${taskItem.startedIn}`.yellow : 'Not started'.red;
+      console.log(
+        `${(counter + '.').green} User: ${user.cyan} ${title} --> ${status.yellow} - ${started}`
+      );
+    });
   } catch (error) {
     console.log(error);
   }
@@ -92,4 +119,5 @@ module.exports = {
   seq_deleteTask,
   seq_startableTasks,
   seq_markTaskStarted,
+  seq_listPendingTasks,
 };
