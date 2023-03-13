@@ -75,7 +75,7 @@ class List {
 
   listPendingInProgressCompleted(completed = true) {
     let counter = 0;
-    console.log();
+    console.log(); // Go to next line
     this.listArray.forEach((taskItem) => {
       const { user, title, startedIn, completedIn } = taskItem;
 

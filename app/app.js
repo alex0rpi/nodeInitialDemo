@@ -22,6 +22,7 @@ const {
   seq_deletableTasks,
   seq_startableTasks,
   seq_markTaskStarted,
+  seq_listPendingTasks,
 } = require('./controllers/sequelize');
 const { Task } = require('./models/sequelize');
 const { seq_modifyTask } = require('./controllers/seq_modifyTask.js');
@@ -76,7 +77,7 @@ const main = async () => {
           break;
         }
         if (process.env.DATABASE === 'mysql') {
-          
+          seq_listPendingTasks();
           break;
         }
       case '5': // mark tasks as started
