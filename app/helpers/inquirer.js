@@ -155,7 +155,7 @@ const checklistCompletableTasks = async (tasks = []) => {
   return ids;
 };
 
-const checklistStartableTasks = async (tasks = []) => {
+const listStartableTasks = async (tasks = []) => {
   const choices = tasks.map((taskItem, i) => {
     const idx = `${i + 1}.`.green;
     const user = `user: ${taskItem.user}`.cyan;
@@ -191,6 +191,6 @@ module.exports = {
   listDeletableTasks,
   confirm,
   checklistCompletableTasks,
-  checklistStartableTasks,
+  listStartableTasks,
   registerUser,
 };
