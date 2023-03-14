@@ -4,7 +4,7 @@ const db = require('../models');
 
 const userPlays = async (req, res) => {
   const playerId = req.params.id;
-  console.log(playerId);
+  // console.log(playerId);
   const existingUser = await Users.findOne({ where: { id: playerId } });
   if (!existingUser) return res.status(404).json({ message: 'No player found' });
 
@@ -12,8 +12,7 @@ const userPlays = async (req, res) => {
   const dau2 = Math.floor(Math.random() * 6) + 1;
   const guanya = dau1 + dau2 === 7 ? true : false;
 
-  console.log(dau1, dau2, guanya);
-
+  // console.log(dau1, dau2, guanya);
   const newGame = await Partides.create({ dau1, dau2, guanya, UserId: playerId });
   return res.status(200).json({ newGame, message: 'new game created' });
 };

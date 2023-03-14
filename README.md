@@ -1,52 +1,23 @@
-# Node Initial Demo
+💻 Handout 4.2 Node REST Server
+🌔 Project description
+This Express API implements several endpoints that query towards a mysql database, using Sequelize as ORM. The purpose is to store users that play a simple dice game, the rules of which are as follows: player can only win if the two dices add up to 7, period.
+Routes are grouped into 3 groups:
+    * playerRoutes: for those endpoints aiming at creating, obtaining and updating the players.
+    * gameRoutes: used for executing dice games
+    * rankingRoutes: for endpoints that fire up controllers that will query the DB to get rankings and player performance.
 
-### Project Structure
+🌔 Execution steps
+Before executing please follow these steps below:
 
-Main structure of node.js project. Folders / files:
+DO NOT cd into /app, keep in the project root (node initial demo)
 
-- <b>\_\_tests__</b>. Tests folder. See [Jest Docs](https://jestjs.io/es-ES/docs/configuration) and [Chai Docs](https://www.chaijs.com/)
-- <b>app</b>:
-    - <b>config</b>
-    - <b>controllers</b>
-    - <b>middlewares</b>
-    - <b>models</b>
-    - <b>routes</b>
-    - <b>helpers</b>
-    - <b>app.js</b>. Entry point.
-- <b>package.json</b>.
-- <b>.env</b>. Environment descriptor. See [dotenv doc](https://www.npmjs.com/package/dotenv).
+npm i --> install sequelize and other dependencies needed.
 
-Extras:
-- <b>.eslintrc</b>. Linter JS, static code analyzer. See [EsLint Docs](https://eslint.org/docs/user-guide/configuring/configuration-files).
-- <b>.prettierignore</b>. Code formatter. See [Prettier Config](https://prettier.io/docs/en/configuration.html) and [Prettier Ignore](https://prettier.io/docs/en/ignore.html).
-- <b>.ecosystem.config.js</b>. Process Manage at runtime. See [PM2 Docs](https://pm2.keymetrics.io/).
-
-### Import project for use with Visual Studio Code
-
-Follow the steps below:
-* Fork the project from https://github.com/IT-Academy-BCN/nodeInitialDemo
-* Clone your fork of the project from the Github Platform. Execute:
-  ```
-  git clone https://github.com/your_username_here/nodeInitialDemo
-  ```
-* Open the project downloaded
-  ![Open Project](img/VSC_open.png)
+npm start --> will fire up the server to communicate with mysql
 
 
-### Import project for use with WebStorm
+🌔 Endpoint testing
+Please click on the link below to view and test the endpoints via Postman web.
+Once you're set, just click on the different endpoints and see what happens. Have fun!!
 
-Follow the steps below:
-* Fork the project from https://github.com/IT-Academy-BCN/nodeInitialDemo
-* Clone your fork of the project from the Github Platform. Execute:
-  ```
-  git clone https://github.com/your_username_here/nodeInitialDemo
-  ```
-* Open the project downloaded
-![Open Project](img/webstorm_open.png)
-
-
-### Utilities
-
-* [Node Developers Guide](https://nodejs.dev/learn)
-* **.gitignore file** configuration. See [Official Docs](https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files).
-* **Git branches**. See [Official Docs](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell)
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/25968116-ed30ab9e-e857-4322-b076-c6b765f14ae9?action=collection%2Ffork&collection-url=entityId%3D25968116-ed30ab9e-e857-4322-b076-c6b765f14ae9%26entityType%3Dcollection%26workspaceId%3D57d04225-0c95-4842-86b9-1798df87390b)

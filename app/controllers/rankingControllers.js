@@ -1,26 +1,13 @@
 const { Partides } = require('../models');
 const { Users } = require('../models');
 const db = require('../models');
+const getHallOfFame = require('../helpers/getHallOfFame');
 
 // Aquesta solució ⬇ ⬇, que empra programació "imperativa", requereix de més queries a la base de dades, cosa que podria perjudicar el rendiment de la app.
 const getRanking = async (req, res) => {
   try {
-    const users = await Users.findAll({ raw: true });
-    let dataArray = [];
-    // users.forEach(async (user) => { // for each seems it doesn't allow to await promises
-    for (let user of users) {
-      // for...of loop allows the await keyword to be used on the async functions within it.
-      let winRatio = 0;
-      numberOfGames = await Partides.count({ where: { UserId: user.id } });
-      numberOfWins = await Partides.count({ where: { UserId: user.id, guanya: true } });
-      if (!(numberOfGames === 0)) winRatio = numberOfWins / numberOfGames;
-      dataArray.push({
-        player: user.username,
-        winRatio,
-        description: `${numberOfWins} wins out of ${numberOfGames} games played`,
-      });
-    }
     let avgWinRatio = 0;
+    const dataArray = await getHallOfFame();
     const resultRanking = dataArray
       .sort((a, b) => b.winRatio - a.winRatio)
       .map((player) => {
@@ -30,7 +17,7 @@ const getRanking = async (req, res) => {
           winRatio: `${(player.winRatio * 100).toFixed(2)}%`,
         };
       });
-    avgWinRatio = `${((avgWinRatio / users.length) * 100).toFixed(2)}%`;
+    avgWinRatio = `${((avgWinRatio / dataArray.length) * 100).toFixed(2)}%`;
     return res.status(202).json({ message: 'raking', avgWinRatio, resultRanking });
   } catch (error) {
     return res.status(500).json({ message: 'error', error });
@@ -39,24 +26,12 @@ const getRanking = async (req, res) => {
 
 const getWorstPlayer = async (req, res) => {
   try {
-    const users = await Users.findAll({ raw: true });
-    let dataArray = [];
-    // users.forEach(async (user) => { // for each seems it doesn't allow to await promises
-    for (let user of users) {
-      // for...of loop allows the await keyword to be used on the async functions within it.
-      let winRatio = 0;
-      numberOfGames = await Partides.count({ where: { UserId: user.id } });
-      numberOfWins = await Partides.count({ where: { UserId: user.id, guanya: true } });
-      if (!(numberOfGames === 0)) winRatio = numberOfWins / numberOfGames;
-      dataArray.push({
-        player: user.username,
-        winRatio,
-        description: `${numberOfWins} wins out of ${numberOfGames} games played`,
-      });
-    }
-
+    const dataArray = await getHallOfFame();
     const worstPlayer = dataArray.sort((a, b) => a.winRatio - b.winRatio)[0];
-    res.status(202).json({ message: 'worst player' }, worstPlayer);
+    res.status(200).json({
+      message: 'Worst player',
+      worstPlayer: { ...worstPlayer, winRatio: `${worstPlayer.winRatio.toFixed(2) * 100}%` },
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: 'error', error });
@@ -64,29 +39,17 @@ const getWorstPlayer = async (req, res) => {
 };
 
 const getBestPlayer = async (req, res) => {
-    try {
-        const users = await Users.findAll({ raw: true });
-        let dataArray = [];
-        // users.forEach(async (user) => { // for each seems it doesn't allow to await promises
-        for (let user of users) {
-          // for...of loop allows the await keyword to be used on the async functions within it.
-          let winRatio = 0;
-          numberOfGames = await Partides.count({ where: { UserId: user.id } });
-          numberOfWins = await Partides.count({ where: { UserId: user.id, guanya: true } });
-          if (!(numberOfGames === 0)) winRatio = numberOfWins / numberOfGames;
-          dataArray.push({
-            player: user.username,
-            winRatio,
-            description: `${numberOfWins} wins out of ${numberOfGames} games played`,
-          });
-        }
-    
-        const worstPlayer = dataArray.sort((a, b) => b.winRatio - a.winRatio)[0];
-        res.status(202).json({ message: 'worst player' }, worstPlayer);
-      } catch (error) {
-        console.log(error);
-        res.status(500).json({ message: 'error', error });
-      }
+  try {
+    const dataArray = await getHallOfFame();
+    const bestPlayer = dataArray.sort((a, b) => b.winRatio - a.winRatio)[0];
+    res.status(200).json({
+      message: 'Worst player',
+      bestPlayer: { ...bestPlayer, winRatio: `${bestPlayer.winRatio.toFixed(2) * 100}%` },
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'error', error });
+  }
 };
 
 module.exports = {
@@ -94,7 +57,6 @@ module.exports = {
   getWorstPlayer,
   getBestPlayer,
 };
-
 
 // Aquesta solució pel controlaor getRanking ⬇ ⬇, empra programació "declarativa", i només realitza una sola crida a la base de dades.
 // Això, si, la querie queda bastant complexa i de fet no me n'he ensortit :/
