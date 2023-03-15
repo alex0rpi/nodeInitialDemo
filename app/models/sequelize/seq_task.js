@@ -6,8 +6,8 @@ module.exports = (sequelize, DataTypes) => {
       title: { type: DataTypes.STRING, allowNull: false },
       description: { type: DataTypes.STRING, allowNull: true },
       status: { type: DataTypes.STRING, allowNull: false }, //pending, pending-started, completed
-      startedIn: { type: DataTypes.DATE , allowNull: true },
-      completedIn: { type: DataTypes.DATE , allowNull: true },
+      startedIn: { type: DataTypes.STRING , allowNull: true },
+      completedIn: { type: DataTypes.STRING , allowNull: true },
     },
     {
       timestamps: false,

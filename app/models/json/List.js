@@ -18,7 +18,7 @@ class List {
   get listArray() {
     let arrayList = [];
     Object.keys(this._taskList).forEach((key) => {
-      // Enchufamos el contenido de la posición [key], que es toda la tarea
+      // Assign the content of the position[key] (the whole task object)
       const taskItem = this._taskList[key];
       arrayList.push(taskItem);
     });
@@ -47,7 +47,7 @@ class List {
       if (this._taskList[id]) {
         delete this._taskList[id];
       }
-    })
+    });
   }
 
   loadTaskArray(tasks = []) {
@@ -85,15 +85,17 @@ class List {
         if (completedIn) {
           // show completed
           counter += 1;
-          console.log(`${(counter + '.').green} User: ${user.cyan} ${title} --> ${status}`);
+          console.log(
+            `${(counter + '.').green} User: ${user.cyan} - Task: ${title} --> ${
+              startedIn ? 'Start: ' + taskItem.startedIn + ' - ' : ''
+            }${status}`
+          );
         }
       } else {
         if (!completedIn) {
           // show pending (in progress and not started)
           counter += 1;
-          console.log(
-            `${(counter + '.').green} User: ${user.cyan} ${title} --> ${status} - ${started}`
-          );
+          console.log(`${(counter + '.').green} User: ${user.cyan} ${title} --> ${status} - ${started}`);
         }
       }
     });
@@ -101,12 +103,15 @@ class List {
 
   markTaskStarted(ids = []) {
     ids.forEach((id) => {
-      if(!id) return
+      if (!id) return;
       if (!this._taskList[id].startedIn) {
-        this._taskList[id].startedIn = new Date().toLocaleString();
+        const d = new Date();
+        const date = `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
+        const time = `${d.getHours()}:${d.getMinutes()}h`;
+        this._taskList[id].startedIn = `${date} at ${time}`;
       }
     });
-    // Need to mark everything else as PENDING if not marked as started.
+    // Need to mark everything else as startedIn = null if not marked as started.
     this.listArray.forEach((taskItem) => {
       if (!ids.includes(taskItem.id)) {
         this._taskList[taskItem.id].startedIn = null;
@@ -116,10 +121,13 @@ class List {
 
   markTaskComplete(ids = []) {
     ids.forEach((id) => {
-      if(!id) return
+      if (!id) return;
       if (!this._taskList[id].completedIn) {
-        this._taskList[id].completedIn = new Date().toLocaleString();
-        this._taskList[id].startedIn = null;
+        const d = new Date();
+        const date = `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
+        const time = `${d.getHours()}:${d.getMinutes()}h`;
+        this._taskList[id].completedIn = `${date} at ${time}`;
+        // this._taskList[id].startedIn = null;
       }
     });
     // make sure every task NOT MARKED as complete is set to PENDING

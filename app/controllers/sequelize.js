@@ -11,7 +11,7 @@ const seq_createTask = async (taskData) => {
       user,
       title,
       description,
-      status: 'pending',
+      status: 'Pending',
     });
   } catch (error) {
     console.log(error);
@@ -28,12 +28,9 @@ const seq_listTasks = async () => {
     console.log();
     tasks.forEach((task, i) => {
       const index = `${i + 1}`.green;
-      const started = !task.completedIn
-        ? task.startedIn
-          ? `- In progress`.yellow
-          : '- Not started'.red
-        : '';
-      console.log(`${index} User: ${task.user.cyan} ${task.title} --> ${task.status} ${started}`);
+      const status = task.status === 'Completed' ? task.status.green : task.status.yellow;
+      const started = !task.completedIn ? (task.startedIn ? `- In progress`.yellow : '- Not started'.red) : '';
+      console.log(`${index} User: ${task.user.cyan} ${task.title} --> ${status} ${started}`);
     });
   } catch (error) {
     console.log(error);
@@ -59,55 +56,93 @@ const seq_deletableTasks = async () => {
 
 const seq_deleteTask = async (ids = []) => await Task.destroy({ where: { id: ids } });
 
-const seq_startableTasks = async () => {
-  const tasks = await Task.findAll({
-    where: {
-      status: 'pending',
-      completedIn: null,
-    },
-    raw: true,
-  });
-  return tasks;
+const seq_listTasksToStartOrComplete = async () => {
+  try {
+    const tasks = await Task.findAll({
+      // where: {
+      //   status: 'Pending',
+      //   completedIn: null,
+      // },
+      raw: true,
+    });
+    return tasks;
+  } catch (error) {
+    throw new Error(error.message);
+  }
 };
 
 const seq_markTaskStarted = async (selectedIds = []) => {
   try {
     const d = new Date();
-    const date = d.toISOString();
-    const updated = await Task.update({ startedIn: date }, { where: { id: selectedIds } });
+    const date = `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
+    const time = `${d.getHours()}:${d.getMinutes()}h`;
+    const updated = await Task.update({ startedIn: `${date} at ${time}` }, { where: { id: selectedIds } });
     if (updated === 0) console.log('No tasks marked as started');
     if (updated === 1) console.log('Task marked as started (in progress)');
     if (updated > 1) console.log('Tasks marked as started (in progress)');
-    // Mark the rest of tasks as startedIn:Null and status:"pending".
-    await Task.update(
-      { startedIn: null, status: 'pending' },
-      { where: { id: { [Op.notIn]: selectedIds } } }
-    );
+    // Mark the rest of tasks as startedIn:Null and status:"Pending".
+    await Task.update({ startedIn: null }, { where: { id: { [Op.notIn]: selectedIds } } });
   } catch (error) {
-    console.log(error);
+    throw new Error(error.message);
   }
 };
 
 const seq_listPendingTasks = async () => {
   try {
     const tasks = await Task.findAll({
-      where: {
-        status: 'pending',
-      },
+      where: { status: 'Pending' },
       raw: true,
     });
     let counter = 0;
-    console.log() // Go to next line
-    tasks.forEach((taskItem, i) => {
+    console.log(); // Go to next line
+    tasks.forEach((taskItem) => {
       counter += 1;
       const { user, title, status, startedIn } = taskItem;
       const started = startedIn ? `Started: ${taskItem.startedIn}`.yellow : 'Not started'.red;
-      console.log(
-        `${(counter + '.').green} User: ${user.cyan} ${title} --> ${status.yellow} - ${started}`
-      );
+      console.log(`${(counter + '.').green} User: ${user.cyan} ${title} --> ${status.yellow} - ${started}`);
     });
   } catch (error) {
-    console.log(error);
+    throw new Error(error.message);
+  }
+};
+
+const seq_listCompletedTasks = async () => {
+  try {
+    const completedTasks = await Task.findAll({
+      where: { status: 'Completed' },
+      raw: true,
+    });
+    let counter = 0;
+    console.log(); // Go to next line
+    completedTasks.forEach((taskItem) => {
+      const { user, title, completedIn, startedIn } = taskItem;
+      counter += 1;
+      const state = completedIn ? `Completed: ${taskItem.completedIn}`.green : 'Pending'.red;
+      console.log(
+        `${(counter + '.').green} User: ${user.cyan} - Task: ${title} --> ${
+          startedIn ? 'Start: ' + taskItem.startedIn + ' - ' : ''
+        }${state}`
+      );
+    });
+  } catch (error) {}
+};
+
+const seq_markTaskCompleted = async (selectedIds = []) => {
+  try {
+    const d = new Date();
+    const date = `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
+    const time = `${d.getHours()}:${d.getMinutes()}h`;
+    const updated = await Task.update(
+      { completedIn: `${date} at ${time}`, status: 'Completed' },
+      { where: { id: selectedIds } }
+    );
+    if (updated === 0) console.log('No tasks marked as completed');
+    if (updated === 1) console.log('Task marked as completed');
+    if (updated > 1) console.log('Tasks marked as completed');
+    // Mark the rest of tasks as completedIn:Null and status:"Pending".
+    await Task.update({ completedIn: null, status: 'Pending' }, { where: { id: { [Op.notIn]: selectedIds } } });
+  } catch (error) {
+    throw new Error(error.message);
   }
 };
 
@@ -117,7 +152,9 @@ module.exports = {
   seq_showUserTasks,
   seq_deletableTasks,
   seq_deleteTask,
-  seq_startableTasks,
+  seq_listTasksToStartOrComplete,
   seq_markTaskStarted,
   seq_listPendingTasks,
+  seq_markTaskCompleted,
+  seq_listCompletedTasks,
 };
