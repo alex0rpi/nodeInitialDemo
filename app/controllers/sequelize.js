@@ -76,10 +76,14 @@ const seq_markTaskStarted = async (selectedIds = []) => {
     const d = new Date();
     const date = `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
     const time = `${d.getHours()}:${d.getMinutes()}h`;
-    const updated = await Task.update({ startedIn: `${date} at ${time}` }, { where: { id: selectedIds } });
-    if (updated === 0) console.log('No tasks marked as started');
-    if (updated === 1) console.log('Task marked as started (in progress)');
-    if (updated > 1) console.log('Tasks marked as started (in progress)');
+    selectedIds.forEach(async (id) => {
+      const taskToMarkStarted = await Task.findOne({ where: { id } });
+      // ONLY put a start date IF THE TASK IS NOT ALREADY STARTED.
+      if (!taskToMarkStarted.startedIn) {
+        await Task.update({ startedIn: `${date} at ${time}` }, { where: { id } });
+        console.log('Task(s) marked as started');
+      }
+    });
     // Mark the rest of tasks as startedIn:Null and status:"Pending".
     await Task.update({ startedIn: null }, { where: { id: { [Op.notIn]: selectedIds } } });
   } catch (error) {
