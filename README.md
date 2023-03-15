@@ -1,52 +1,29 @@
-# Node Initial Demo
+# 💻 Handout 4.1 Node REST Server
 
-### Project Structure
+## 🌔 Project description
 
-Main structure of node.js project. Folders / files:
+This Express API implements several endpoints with the purpose of practicing different http requests with and without added headers and body content. To this end, it implements several routes, each one using a specific controller.
+Some of the endpoints are passed through a middleware that may either checks for the presence of a certain header, or add a new one.
 
-- <b>\_\_tests__</b>. Tests folder. See [Jest Docs](https://jestjs.io/es-ES/docs/configuration) and [Chai Docs](https://www.chaijs.com/)
-- <b>app</b>:
-    - <b>config</b>
-    - <b>controllers</b>
-    - <b>middlewares</b>
-    - <b>models</b>
-    - <b>routes</b>
-    - <b>helpers</b>
-    - <b>app.js</b>. Entry point.
-- <b>package.json</b>.
-- <b>.env</b>. Environment descriptor. See [dotenv doc](https://www.npmjs.com/package/dotenv).
+## 🌔 Execution steps
 
-Extras:
-- <b>.eslintrc</b>. Linter JS, static code analyzer. See [EsLint Docs](https://eslint.org/docs/user-guide/configuring/configuration-files).
-- <b>.prettierignore</b>. Code formatter. See [Prettier Config](https://prettier.io/docs/en/configuration.html) and [Prettier Ignore](https://prettier.io/docs/en/ignore.html).
-- <b>.ecosystem.config.js</b>. Process Manage at runtime. See [PM2 Docs](https://pm2.keymetrics.io/).
+Before executing please follow these steps below:
 
-### Import project for use with Visual Studio Code
+* DO NOT cd into /app, keep in the project root (node initial demo)
 
-Follow the steps below:
-* Fork the project from https://github.com/IT-Academy-BCN/nodeInitialDemo
-* Clone your fork of the project from the Github Platform. Execute:
-  ```
-  git clone https://github.com/your_username_here/nodeInitialDemo
-  ```
-* Open the project downloaded
-  ![Open Project](img/VSC_open.png)
+* npm i
 
+* make sure the .env-use file is renamed to .env, and that it contains a valid PORT (5000 for the purpose of this exercice).
 
-### Import project for use with WebStorm
+* npm start
 
-Follow the steps below:
-* Fork the project from https://github.com/IT-Academy-BCN/nodeInitialDemo
-* Clone your fork of the project from the Github Platform. Execute:
-  ```
-  git clone https://github.com/your_username_here/nodeInitialDemo
-  ```
-* Open the project downloaded
-![Open Project](img/webstorm_open.png)
+* To test the api, please click on the link below
 
+## 🌔 Endpoint testing
 
-### Utilities
+* Please click on the link below to view and test the endpoints via Postman web.
 
-* [Node Developers Guide](https://nodejs.dev/learn)
-* **.gitignore file** configuration. See [Official Docs](https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files).
-* **Git branches**. See [Official Docs](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell)
+* Once you're set, just click on the different endpoints and see what happens. Please notice that the second endpoint, a post request, intends to upload an image which can be of .png, .jpg or .gif. So please make sure you include it in your request.
+
+![Run in Postman](https://run.pstmn.io/button.svg)
+https://app.getpostman.com/run-collection/25968116-73fc1b22-258c-4373-9111-9a2711a9a6a8?action=collection%2Ffork&collection-url=entityId%3D25968116-73fc1b22-258c-4373-9111-9a2711a9a6a8%26entityType%3Dcollection%26workspaceId%3D57d04225-0c95-4842-86b9-1798df87390b

@@ -1,0 +1,23 @@
+{
+    "name": "nodeinitialdemo",
+    "version": "1.0.0",
+    "description": "sample project for node",
+    "main": "app.js",
+    "scripts": {
+      "start": "nodemon app/app.js",
+      "dev": "",
+      "test": "jest"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "cors": "^2.8.5",
+      "express": "^4.18.2",
+      "express-fileupload": "^1.4.0"
+    },
+    "devDependencies": {
+      "jest": "^28.1.1",
+      "nodemon": "^2.0.7"
+    }
+  }
+  
