@@ -56,13 +56,23 @@ const seq_deletableTasks = async () => {
 
 const seq_deleteTask = async (ids = []) => await Task.destroy({ where: { id: ids } });
 
-const seq_listTasksToStartOrComplete = async () => {
+const seq_listTasksToStart = async () => {
   try {
     const tasks = await Task.findAll({
-      // where: {
-      //   status: 'Pending',
-      //   completedIn: null,
-      // },
+      where: {
+        status: 'Pending',
+        completedIn: null,
+      },
+      raw: true,
+    });
+    return tasks;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+const seq_listTasksToComplete = async () => {
+  try {
+    const tasks = await Task.findAll({
       raw: true,
     });
     return tasks;
@@ -156,7 +166,8 @@ module.exports = {
   seq_showUserTasks,
   seq_deletableTasks,
   seq_deleteTask,
-  seq_listTasksToStartOrComplete,
+  seq_listTasksToStart,
+  seq_listTasksToComplete,
   seq_markTaskStarted,
   seq_listPendingTasks,
   seq_markTaskCompleted,

@@ -20,7 +20,8 @@ const {
   seq_showUserTasks,
   seq_deleteTask,
   seq_deletableTasks,
-  seq_listTasksToStartOrComplete,
+  seq_listTasksToStart,
+  seq_listTasksToComplete,
   seq_markTaskStarted,
   seq_listPendingTasks,
   seq_markTaskCompleted,
@@ -59,7 +60,6 @@ const main = async () => {
             description: inputDesc,
           });
         }
-
         break;
       case "2":
         if (process.env.DATABASE === "json") list.listAllTasks();
@@ -85,7 +85,7 @@ const main = async () => {
         }
         if (process.env.DATABASE === 'mysql') {
           // Check mysql database and send info to inquirer function
-          const tasksToList = await seq_listTasksToStartOrComplete();
+          const tasksToList = await seq_listTasksToStart();
           // Send list to inquirer to prompt and let user select those wanted
           const tasksIdsMarkStarted = await listStartableTasks(tasksToList);
           // Pass the selection to sequelize function to update database
@@ -98,7 +98,7 @@ const main = async () => {
           list.markTaskComplete(ids);
         }
         if (process.env.DATABASE === 'mysql') {
-          const tasksToList = await seq_listTasksToStartOrComplete();
+          const tasksToList = await seq_listTasksToComplete();
           const tasksIdsMarkCompleted = await checklistCompletableTasks(tasksToList);
           seq_markTaskCompleted(tasksIdsMarkCompleted);
         }
