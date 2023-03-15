@@ -4,7 +4,7 @@ const gameRoutes = require('./routes/gameRoutes');
 const rankingRoutes = require('./routes/rankingRoutes');
 const notFoundController = require('./controllers/notFoundController');
 const db = require('./models');
-require('dotenv').config();
+require('dotenv').config(); // only needed to require it here
 
 const app = express();
 
