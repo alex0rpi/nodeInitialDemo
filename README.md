@@ -1,12 +1,12 @@
-💻 Handout 4.2 Node REST Server (Nivell 1)
-🌔 Project description
+# 💻 Handout 4.2 Node REST Server (Nivell 1)
+## 🌔 Project description
 This Express API implements several endpoints that query towards a mysql database, using Sequelize as ORM. The purpose is to store users that play a simple dice game, the rules of which are as follows: player can only win if the two dices add up to 7, period.
 Routes are grouped into 3 groups:
 * playerRoutes: for those endpoints aiming at creating, obtaining and updating the players.
 * gameRoutes: used for executing dice games. This is the main endpoint that will be used by the players.
 * rankingRoutes: for endpoints that fire up controllers that will query the DB to get rankings and player performance.
 
-🌔 Execution steps🖥
+## 🌔 Execution steps🖥
 Before executing please follow these steps below:
 
 ✔ DO NOT cd into /app, keep in the project root (node initial demo).
