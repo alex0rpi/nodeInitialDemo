@@ -4,8 +4,12 @@
   "description": "sample project for node",
   "main": "app.js",
   "scripts": {
-    "start": "node app/app.js",
-    "dev": "nodemon app/app.js",
+    "json": "set DATABASE=json&& node app/app.js",
+    "dev-json": "set DATABASE=json&& nodemon app/app.js",
+    "mysql": "set DATABASE=mysql&& node app/app.js",
+    "dev-mysql": "set DATABASE=mysql&& nodemon app/app.js",
+    "mysql-server": "set DATABASE=mysql&& node app/index.js",
+    "dev-mysql-server": "set DATABASE=mysql&& nodemon app/index.js",
     "test": "jest"
   },
   "author": "",
@@ -16,7 +20,11 @@
   },
   "dependencies": {
     "colors": "^1.4.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
     "inquirer": "^8.2.5",
+    "mysql2": "^3.2.0",
+    "sequelize": "^6.29.1",
     "uuid": "^9.0.0"
   }
 }

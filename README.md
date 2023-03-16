@@ -1,20 +1,29 @@
-# Node Initial Demo
+# 💻DevTeams Sergi - David - Alex
 
-INSTRUCCIONES para ejecutar el programa:
+Benvingut/da a la nostra aplicació de gestió de tasques.
+En aquesta app podreu crear tasques, marcarles com a començades o finalitzades, eliminar-les o modificar-les.
 
-1- cd a la root del proyecto, usando un comando en la consola
+Aquest app pot funcionar en dues modalitats:
+* Base de dades en format .json.
+* Base de dades mitjançant mysql
 
+## Instruccions per a executar.
 
-2- usar comando por consola: npm i
+✅ Situeu-vos a l'arrel del projecte.
 
-3- usar comando por consola: npm start
+✅ Executeu la comanda npm i
 
+✅ Per executar la app amb persistència de tasques en json, executeu la comanda:
+    npm run json
 
-AIXÔ ES La branca dev temas de David Sergi i Alex
+✅ Per executar la app amb persistència de tasques en mysql, feu les passes següents:
 
-dependencies:
-UUID, colors, inquirer
+Primera vegada executant amb mysql:
+* Desde mysql workbench, crear un schema amb el nom desistjat per la base de dades.
+* Dins del directori config, en el fitxer config.json, assegurar-se de què hi figuren els valors correctes de username, password, database (nom del schema creat) i host (host del server de mysql a on es trobi la base de dades creada).
+* Executeu les comandes en terminals paral·lels:
 
-Para ejecutar programa:
-Desde carpeta /nodeinitialDemo
-npm start
+    npm run mysql-server --> això executarà el servidor local de mysql
+    npm run mysql --> això executarà la app
+    
+ENJOY 😉

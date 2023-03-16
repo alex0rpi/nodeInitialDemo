@@ -12,14 +12,14 @@ const questions = [
       { value: '3', name: `${'3.'.yellow} List completed tasks` },
       { value: '4', name: `${'4.'.yellow} List pending tasks` },
       { value: '5', name: `${'5.'.yellow} Mark task(s) started` },
-      { value: '6', name: `${'6.'.yellow} Change completed status` },
+      { value: '6', name: `${'6.'.yellow} Mark task(s) completed` },
       { value: '7', name: `${'7.'.yellow} Delete task` },
-      { value: '8', name: `${'8.'.yellow} Select specific task` },
+      { value: '8', name: `${'8.'.yellow} Show specific task` },
       { value: '9', name: `${'9.'.yellow} Select tasks by user` },
       { value: '10', name: `${'10.'.yellow} Modify task` },
       { value: '0', name: `${'0.'.yellow} Exit` },
     ],
-    pageSize: 11
+    pageSize: 11,
   },
 ];
 
@@ -91,7 +91,7 @@ const listDeletableTasks = async (tasks = []) => {
     const idx = `${i + 1}.`.green;
     return {
       value: taskItem.id,
-      name: `${idx} ${taskItem.title}`
+      name: `${idx} ${taskItem.title}`,
     };
   });
 
@@ -136,11 +136,6 @@ const checklistCompletableTasks = async (tasks = []) => {
     };
   });
 
-  // choices.unshift({
-  //   // value: 0,
-  //   // name: `${'0.'.green} Cancel`,
-  // });
-
   const preguntas = [
     {
       type: 'checkbox',
@@ -154,21 +149,18 @@ const checklistCompletableTasks = async (tasks = []) => {
   return ids;
 };
 
-const checklistStartableTasks = async (tasks = []) => {
-  const choices = tasks.map((taskItem, i) => {
-    const idx = `${i + 1}.`.green;
-    const user = `user: ${taskItem.user}`.cyan;
-    return {
-      value: taskItem.id,
-      name: `${idx} ${user} - ${taskItem.title}`,
-      checked: taskItem.startedIn ? true : false,
-    };
-  });
-
-  // choices.unshift({
-  //   value: 0,
-  //   name: `${'0.'.green} Cancel`,
-  // });
+const listStartableTasks = async (tasks = []) => {
+  const choices = tasks
+    .filter((task) => !task.completedIn)
+    .map((taskItem, i) => {
+      const idx = `${i + 1}.`.green;
+      const user = `user: ${taskItem.user}`.cyan;
+      return {
+        value: taskItem.id,
+        name: `${idx} ${user} - ${taskItem.title}`,
+        checked: taskItem.startedIn ? true : false,
+      };
+    });
 
   const preguntas = [
     {
@@ -190,6 +182,6 @@ module.exports = {
   listDeletableTasks,
   confirm,
   checklistCompletableTasks,
-  checklistStartableTasks,
+  listStartableTasks,
   registerUser,
 };

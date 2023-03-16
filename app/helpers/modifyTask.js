@@ -1,20 +1,19 @@
-const inquirer = require('inquirer')
-const colors = require('colors');
+const inquirer = require("inquirer")
+const colors = require("colors")
 
 const selectTask = async (tareas) => {
-
   const choices = tareas.map((tarea, i) => {
-    const idx = `${i + 1}.`.green;
+    const idx = `${i + 1}.`.green
     return {
       value: tarea,
       name: `${idx} ${tarea.title}`,
-    };
-  });
+    }
+  })
 
   choices.push({
     value: "0",
     name: "0.".green + " " + "Cancelar",
-  });
+  })
   const preguntas = [
     {
       type: "list",
@@ -22,10 +21,10 @@ const selectTask = async (tareas) => {
       message: `Borrar`,
       choices: choices,
     },
-  ];
-  const { id } = await inquirer.prompt(preguntas);
-  return id;
-};
+  ]
+  const { id } = await inquirer.prompt(preguntas)
+  return id
+}
 
 const selectModification = async () => {
   const options = [
@@ -37,11 +36,11 @@ const selectModification = async () => {
       value: 2,
       name: "Description",
     },
-  ];
+  ]
   options.push({
     value: "0",
     name: "Cancelar",
-  });
+  })
 
   const preguntas = [
     {
@@ -50,25 +49,23 @@ const selectModification = async () => {
       message: `What to modify?`,
       choices: options,
     },
-  ];
-  const { selection } = await inquirer.prompt(preguntas);
-
-  return selection;
-};
+  ]
+  const { selection } = await inquirer.prompt(preguntas)
+  return selection
+}
 
 const textoInput = async (message) => {
-  console.log("Insert new text");
+  console.log("Insert new text")
   const question = [
     {
       type: "input",
       name: "newText",
       message: message,
     },
-  ];
+  ]
 
-  const { newText } = await inquirer.prompt(question);
-  //   console.log("textoInput:::", newText);
-  return newText;
-};
+  const { newText } = await inquirer.prompt(question)
+  return newText
+}
 
-module.exports = { selectTask, selectModification, textoInput };
+module.exports = { selectTask, selectModification, textoInput }
