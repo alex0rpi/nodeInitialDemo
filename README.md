@@ -20,7 +20,7 @@ Before executing please follow these steps below:
 
 ✔ npm start --> will fire up the server to communicate with mysql.
 
-🌔 Endpoint testing
+🌔 Endpoint testing 🚀
 Please click on the link below to view and test the endpoints via Postman web.
 Once you're set, just click on the different endpoints and see what happens. Have fun!!
 
