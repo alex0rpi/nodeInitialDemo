@@ -1,52 +1,29 @@
-# Node Initial Demo
+# 💻DevTeams Sergi - David - Alex
 
-### Project Structure
+Benvingut/da a la nostra aplicació de gestió de tasques.
+En aquesta app podreu crear tasques, marcarles com a començades o finalitzades, eliminar-les o modificar-les.
 
-Main structure of node.js project. Folders / files:
+Aquest app pot funcionar en dues modalitats:
+* Base de dades en format .json.
+* Base de dades mitjançant mysql
 
-- <b>\_\_tests__</b>. Tests folder. See [Jest Docs](https://jestjs.io/es-ES/docs/configuration) and [Chai Docs](https://www.chaijs.com/)
-- <b>app</b>:
-    - <b>config</b>
-    - <b>controllers</b>
-    - <b>middlewares</b>
-    - <b>models</b>
-    - <b>routes</b>
-    - <b>helpers</b>
-    - <b>app.js</b>. Entry point.
-- <b>package.json</b>.
-- <b>.env</b>. Environment descriptor. See [dotenv doc](https://www.npmjs.com/package/dotenv).
+## Instruccions per a executar.
 
-Extras:
-- <b>.eslintrc</b>. Linter JS, static code analyzer. See [EsLint Docs](https://eslint.org/docs/user-guide/configuring/configuration-files).
-- <b>.prettierignore</b>. Code formatter. See [Prettier Config](https://prettier.io/docs/en/configuration.html) and [Prettier Ignore](https://prettier.io/docs/en/ignore.html).
-- <b>.ecosystem.config.js</b>. Process Manage at runtime. See [PM2 Docs](https://pm2.keymetrics.io/).
+✅ Situeu-vos a l'arrel del projecte.
 
-### Import project for use with Visual Studio Code
+✅ Executeu la comanda npm i
 
-Follow the steps below:
-* Fork the project from https://github.com/IT-Academy-BCN/nodeInitialDemo
-* Clone your fork of the project from the Github Platform. Execute:
-  ```
-  git clone https://github.com/your_username_here/nodeInitialDemo
-  ```
-* Open the project downloaded
-  ![Open Project](img/VSC_open.png)
+✅ Per executar la app amb persistència de tasques en json, executeu la comanda:
+    npm run json
 
+✅ Per executar la app amb persistència de tasques en mysql, feu les passes següents:
 
-### Import project for use with WebStorm
+Primera vegada executant amb mysql:
+* Desde mysql workbench, crear un schema amb el nom desistjat per la base de dades.
+* Dins del directori config, en el fitxer config.json, assegurar-se de què hi figuren els valors correctes de username, password, database (nom del schema creat) i host (host del server de mysql a on es trobi la base de dades creada).
+* Executeu les comandes en terminals paral·lels:
 
-Follow the steps below:
-* Fork the project from https://github.com/IT-Academy-BCN/nodeInitialDemo
-* Clone your fork of the project from the Github Platform. Execute:
-  ```
-  git clone https://github.com/your_username_here/nodeInitialDemo
-  ```
-* Open the project downloaded
-![Open Project](img/webstorm_open.png)
-
-
-### Utilities
-
-* [Node Developers Guide](https://nodejs.dev/learn)
-* **.gitignore file** configuration. See [Official Docs](https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files).
-* **Git branches**. See [Official Docs](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell)
+    npm run mysql-server --> això executarà el servidor local de mysql
+    npm run mysql --> això executarà la app
+    
+ENJOY 😉
