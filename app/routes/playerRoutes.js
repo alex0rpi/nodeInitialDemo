@@ -5,10 +5,10 @@ const validateUser = require('../middlewares/validateToken');
 const router = express.Router();
 
 // En primer lloc, crear un jugador usuari.
-router.post('/', createPlayer); //crea un jugador/a.
+router.post('/', createPlayer); //crea un jugador/a
 
 // Accedir a aquest endoint /login per tal d'obtenir un token i poder fer servir la resta de endpoints.
-router.post('/login', loginUser); //autentifica un jugador/a i l'ingressa al sistema
+router.post('/login', loginUser); //autentifica un usuari/a i l'ingressa al sistema
 
 router.put('/:id', updatePlayer); //modifica el nom del jugador/a.
 

@@ -1,10 +1,12 @@
 const { Users } = require('../models');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 const createPlayer = async (req, res) => {
   const { username, password } = req.body;
   // Per ara no hi ha validació ni de username ni de password, però en un futur es podria fer.
-  if (username === null || username === '') username = 'ANÒNIM';
+  if (!password || password.trim() === '') return res.status(404).json({ message: 'Password is required.' });
+  if (!username || username.trim() === '') username = 'ANÒNIM';
   try {
     const existingUser = await Users.findOne({ where: { username } });
     if (existingUser) {
@@ -13,8 +15,10 @@ const createPlayer = async (req, res) => {
         created: false,
       });
     }
-    await Users.create({ username });
-    return res.status(200).json({ message: 'new user created.', created: true });
+    const saltRounds = 10;
+    const hashedPw = await bcrypt.hash(password, saltRounds);
+    await Users.create({ username, pwd: hashedPw });
+    return res.status(200).json({ message: 'new user created.' });
   } catch (error) {
     return res.status(500).json({ message: 'Error creating player.', error });
   }
@@ -27,15 +31,21 @@ const loginUser = async (req, res) => {
   if (!username || !password) {
     throw Error('All fields must be filled.');
   }
-  // Per ara no hi ha validació ni de username ni de password, però en un futur es podria fer.
-  // Així que la condició per a obtenir un token és només que l'usuari existeixi.
+  // Condicions per obtenir token: que un username existent introdueixi la seva contrasenya.
   const existingUser = await Users.findOne({ where: { username } });
   if (!existingUser) {
     res.status(404).json({ message: 'User not found, cannot login.' });
   }
-  const token = jwt.sign({ _uid: existingUser.id }, process.env.SECRET, { expiresIn: '1h' });
-  res.status(200).json({ message: 'User logged in.', username, token });
-  // Authorization: "Bearer " + AuthCtx.token
+  // Check password
+  const isMatch = await bcrypt.compare(password, existingUser.pwd);
+  if (!isMatch) {
+    return res.status(401).json({ error: 'Incorrect password' });
+  }
+
+  const token = jwt.sign({ username: existingUser.username, _uid: existingUser.id }, process.env.SECRET, {
+    expiresIn: '1h',
+  });
+  res.status(200).json({ message: 'User logged in!!.', username, token });
 };
 
 const getPlayers = async (req, res) => {
