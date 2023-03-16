@@ -107,7 +107,7 @@ class List {
       if (!this._taskList[id].startedIn) {
         const d = new Date();
         const date = `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
-        const time = `${d.getHours()}:${d.getMinutes()}h`;
+        const time = `${d.getHours()}:${d.getMinutes()<10?'0'+d.getMinutes()<10:d.getMinutes()}h`;
         this._taskList[id].startedIn = `${date} at ${time}`;
       }
     });

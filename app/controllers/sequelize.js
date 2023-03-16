@@ -85,7 +85,8 @@ const seq_markTaskStarted = async (selectedIds = []) => {
   try {
     const d = new Date();
     const date = `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
-    const time = `${d.getHours()}:${d.getMinutes()}h`;
+    const time = `${d.getHours()}:${d.getMinutes()<10?'0'+d.getMinutes()<10:d.getMinutes()}h`;
+    console.log(time)
     selectedIds.forEach(async (id) => {
       const taskToMarkStarted = await Task.findOne({ where: { id } });
       // ONLY put a start date IF THE TASK IS NOT ALREADY STARTED.

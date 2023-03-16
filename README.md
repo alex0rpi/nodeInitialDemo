@@ -1,30 +1,29 @@
-# Node Initial Demo
+# 💻DevTeams Sergi - David - Alex
 
-AIXÔ ES La branca dev temas del David, Sergi i Alex.
+Benvingut/da a la nostra aplicació de gestió de tasques.
+En aquesta app podreu crear tasques, marcarles com a començades o finalitzades, eliminar-les o modificar-les.
 
-INSTRUCCIONES para ejecutar el programa:
+Aquest app pot funcionar en dues modalitats:
+* Base de dades en format .json.
+* Base de dades mitjançant mysql
 
-1- cd a la root del proyecto, usando un comando en la consola
+## Instruccions per a executar.
 
-2- usar comando por consola: npm i
+✅ Situeu-vos a l'arrel del projecte.
 
-dependencies:
-UUID, colors, inquirer
+✅ Executeu la comanda npm i
 
-dependencies sequelize:
-mysql2 sequelize express
+✅ Per executar la app amb persistència de tasques en json, executeu la comanda:
+    npm run json
 
-3- arxiu .env-template, treure-li el -template. (Ya no hace falta especificar manualmente que base de datos se quiere usar)
+✅ Per executar la app amb persistència de tasques en mysql, feu les passes següents:
 
-4- si es el primer cop que s'executa en mysql, en el workbench crear un schema amb el nom de la database
+Primera vegada executant amb mysql:
+* Desde mysql workbench, crear un schema amb el nom desistjat per la base de dades.
+* Dins del directori config, en el fitxer config.json, assegurar-se de què hi figuren els valors correctes de username, password, database (nom del schema creat) i host (host del server de mysql a on es trobi la base de dades creada).
+* Executeu les comandes en terminals paral·lels:
 
-5- En config.json, assegurar-se de què hi figuren els valors correctes de username, password, database (nom del schema creat) y host (host del server de mysql donde esté la base de datos creada anteriormente).
-
-6- usar comando por consola:
-    -En cas d'escollir la base de dades json, en una terminal usar comando --> npm run json
-
-    -En cas de escollir la basde de dades mysql, obrir dos terminals paralels
-     En un terminal --> npm run mysql-server -- per executar el servidor local que comunica amb mysql.
-     En l'altre     --> npm run mysql -- Per executar la app
-
-De moment només permet triar l'opció 1, crear tasca, i si .env DATABASE = mysql anirà a omplir la taula de tasques.
+    npm run mysql-server --> això executarà el servidor local de mysql
+    npm run mysql --> això executarà la app
+    
+ENJOY 😉
