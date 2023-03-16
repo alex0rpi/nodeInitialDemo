@@ -6,7 +6,7 @@ Routes are grouped into 3 groups:
 * gameRoutes: used for executing dice games. This is the main endpoint that will be used by the players.
 * rankingRoutes: for endpoints that fire up controllers that will query the DB to get rankings and player performance.
 
-🌔 Execution steps
+🌔 Execution steps🖥
 Before executing please follow these steps below:
 
 ✔ DO NOT cd into /app, keep in the project root (node initial demo).
