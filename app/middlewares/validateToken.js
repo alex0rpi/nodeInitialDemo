@@ -11,10 +11,10 @@ module.exports = async (req, res, next) => {
     //Verify that the existing token is valid.
     const decodedToken = jwt.verify(token, process.env.JWT_KEY);
     /*Once validated, we add data to the request before let it continue.*/
-    req.userData = { userId: decodedToken.userId };
+    // req.userData = { userId: decodedToken.userId };
     next(); // allow the request to continue its journey.
   } catch (err) {
-    return next(new HttpError('Authentication failed!', 403));
+    return res.status(403).json({ message: 'Authentication failed due to invalid or non existing token!' });
   }
   next();
 };

@@ -11,7 +11,7 @@ const createPlayer = async (req, res) => {
     const existingUser = await Users.findOne({ where: { username } });
     if (existingUser) {
       return res.status(404).json({
-        message: 'Username already taken, try another one ;)',
+        message: 'Username already taken, try another one, or leave it blank and "ANÒNIM" will be assigned for you.',
         created: false,
       });
     }
@@ -29,7 +29,7 @@ const createPlayer = async (req, res) => {
 const loginUser = async (req, res) => {
   const { username, password } = req.body;
   if (!username || !password) {
-    throw Error('All fields must be filled.');
+    throw Error('Incorrect fields provided (username and/or password.');
   }
   // Condicions per obtenir token: que un username existent introdueixi la seva contrasenya.
   const existingUser = await Users.findOne({ where: { username } });
@@ -39,13 +39,23 @@ const loginUser = async (req, res) => {
   // Check password
   const isMatch = await bcrypt.compare(password, existingUser.pwd);
   if (!isMatch) {
-    return res.status(401).json({ error: 'Incorrect password' });
+    return res.status(401).json({ error: 'Incorrect password.' });
   }
 
   const token = jwt.sign({ username: existingUser.username, _uid: existingUser.id }, process.env.SECRET, {
     expiresIn: '1h',
   });
+  // #############################
+  req.headers.authorization = `Bearer ${token}`; // <-- token added to req.header; now it has the superpower to access the protected routes.
+  // #############################
   res.status(200).json({ message: 'User logged in!!.', username, token });
+};
+
+const logOutUser = async (req, res) => {
+  // #############################
+  req.headers.authorization = null; // <-- token nullified on req.header. We removed the power.
+  // #############################
+  res.status(200).json({ message: 'User LOGGED OUT.' });
 };
 
 const getPlayers = async (req, res) => {
@@ -67,10 +77,12 @@ const updatePlayer = async (req, res) => {
     }
     const existingUser = await Users.findOne({ where: { id } });
     await Users.update({ username: newUsername }, { where: { id } });
-    return res.status(200).json({ message: `Player -${existingUser.username}- updated with new name: ${newUsername}` });
+    return res
+      .status(200)
+      .json({ message: `Player -${existingUser.username}- updated with new name: ${newUsername}` });
   } catch (error) {
     return res.status(500).json({ message: 'Error updating player.', err });
   }
 };
 
-module.exports = { loginUser, createPlayer, getPlayers, updatePlayer };
+module.exports = { loginUser, logOutUser, createPlayer, getPlayers, updatePlayer };
