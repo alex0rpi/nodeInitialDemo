@@ -1,8 +1,7 @@
 💻 Handout 4.2 Node REST Server with token validation
 
-## ✈ Enhacements from N1 delivery
-This delivery enriches the N1 version by adding a jsonwebtoken validation flow. This means that the user must be logged in to be able to use the above mentioned endpoints. The login endpoint is not protected by this validation flow, and it's the only one that doesn't require a token to be sent in the header.
-🔴Important, now every endpoint, except /players, /players/login and /players/logout, requires a token to be sent in the header. The token must be sent in the following format in postman: "Bearer <token>". Unfortunatelly I couldn't find a way to make postman send the token in the header automatically, so you'll have to do it manually. Just copy the returned token after login, and make sure you paste it in an Authorization header in postman for every subsequent request. The token is valid for 1 hour🕑, so you'll have to login again after that time.
+## ✈ Enhacements from N3 mysql-jwt delivery
+This delivery now includes a mongodb database functionality. This is achieved by means of a script in package.json that makes the app run either with mysql or mongodb.
 
 ## 🌔 Project description
 This Express API implements several endpoints that query towards a mysql database, using Sequelize as ORM. The purpose is to store users that play a simple dice game, the rules of which are as follows: player can only win if the two dices add up to 7, period.
@@ -16,7 +15,7 @@ Before executing please follow these steps below:
 
 ✔ DO NOT cd into /app, keep in the project root (node initial demo).
 
-✔ npm i --> install sequelize, mysql, express and nodemon as dev dependency.
+✔ npm i --> install sequelize, mysql, express, jsonwebtoken, mongodb and nodemon as dev dependency.
 
 ✔ For local testing of the mysql database, please do the following:
 1. install mysql server (https://dev.mysql.com/downloads/mysql/)
