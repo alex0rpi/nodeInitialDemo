@@ -1,5 +1,5 @@
-const { Users } = require('../../models/sequelize');
-const { Partides } = require('../../models/sequelize');
+const { Users } = require('../../models');
+const { Games } = require('../../models');
 
 module.exports = getHallOfFame = async () => {
   try {
@@ -7,8 +7,8 @@ module.exports = getHallOfFame = async () => {
     let dataArray = [];
     for (let user of users) {
       let winRatio = 0;
-      numberOfGames = await Partides.count({ where: { UserId: user.id } });
-      numberOfWins = await Partides.count({ where: { UserId: user.id, guanya: true } });
+      numberOfGames = await Games.count({ where: { UserId: user.id } });
+      numberOfWins = await Games.count({ where: { UserId: user.id, guanya: true } });
       if (!(numberOfGames === 0)) winRatio = numberOfWins / numberOfGames;
       dataArray.push({
         player: user.username,

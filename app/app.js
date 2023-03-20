@@ -2,9 +2,9 @@ const express = require('express');
 const userRoutes = require('./routes/userRoutes');
 const gameRoutes = require('./routes/gameRoutes');
 const rankingRoutes = require('./routes/rankingRoutes');
-const notFoundController = require('./controllers/sequelize/notFoundController');
+const notFoundController = require('./controllers/notFoundController');
 // mysql imports_______________________________________________________________
-const db = require('./models/sequelize');
+const db = require('./models');
 // MongoDB imports_____________________________________________________________
 const { connectMongoDB } = require('./helpers/mongodb/createMongoDB');
 require('dotenv').config(); // only needed to require it here
@@ -14,7 +14,7 @@ const app = express();
 // Enable json parsing
 app.use(express.json());
 
-app.use('/players', userRoutes);
+app.use('/users', userRoutes);
 app.use('/games', gameRoutes);
 app.use('/ranking', rankingRoutes);
 

@@ -1,14 +1,29 @@
-const { Users } = require('../../models/sequelize');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const MongoPlayerRepository = require('../repositories/users/MongoPlayerRepository');
+const MysqlUserRepository = require('../repositories/users/MysqlUserRepository');
 
-const createPlayer = async (req, res) => {
+function configPlayerRepository() {
+  if (process.env.DB === 'mongodb') {
+    const { getDb } = require('../helpers/mongodb/createMongoDB');
+    let db = getDb();
+    return new MongoPlayerRepository(db);
+  }
+  if (process.env.DB === 'mysql') {
+    const { Users } = require('../models');
+    return new MysqlUserRepository(Users);
+  }
+}
+
+const repo = configPlayerRepository();
+
+const createUser = async (req, res) => {
   let { username, password } = req.body;
   // Per ara no hi ha validació ni de username ni de password, però en un futur es podria fer.
   if (!password || password.trim() === '') return res.status(404).json({ message: 'Password is required.' });
   if (!username || username.trim() === '') username = 'ANÒNIM';
   try {
-    const existingUser = await Users.findOne({ where: { username } });
+    const existingUser = repo.retrieve(username);
     if (existingUser && existingUser.username !== 'ANÒNIM') {
       return res.status(404).json({
         message:
@@ -18,7 +33,7 @@ const createPlayer = async (req, res) => {
     }
     const saltRounds = 10;
     const hashedPw = await bcrypt.hash(password, saltRounds);
-    await Users.create({ username, pwd: hashedPw });
+    repo.create(username, hashedPw);
     return res.status(200).json({ message: `new user -${username}- created. ` });
   } catch (error) {
     return res.status(500).json({ message: 'Error creating player.', error });
@@ -59,7 +74,7 @@ const logOutUser = async (req, res) => {
   res.status(200).json({ message: 'User LOGGED OUT; token removed from authorization header.' });
 };
 
-const getPlayers = async (req, res) => {
+const getUsers = async (req, res) => {
   try {
     const players = await Users.findAll();
 
@@ -71,7 +86,7 @@ const getPlayers = async (req, res) => {
   }
 };
 
-const updatePlayer = async (req, res) => {
+const updateUsers = async (req, res) => {
   const { id } = req.params;
   const { newUsername } = req.body;
   try {
@@ -88,4 +103,4 @@ const updatePlayer = async (req, res) => {
   }
 };
 
-module.exports = { loginUser, logOutUser, createPlayer, getPlayers, updatePlayer };
+module.exports = { loginUser, logOutUser, createUser, getUsers, updateUsers };

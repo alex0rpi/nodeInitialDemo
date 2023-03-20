@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const Partides = sequelize.define(
-    'Partides',
+  const Games = sequelize.define(
+    'Games',
     {
       dau1: {
         type: DataTypes.INTEGER,
@@ -19,5 +19,5 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: false,
     }
   );
-  return Partides;
+  return Games;
 };

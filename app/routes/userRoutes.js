@@ -5,7 +5,7 @@ const {
   createPlayer,
   getPlayers,
   updatePlayer,
-} = require('../controllers/sequelize/playerControllers');
+} = require('../controllers/userControllers');
 const { validateUser } = require('../middlewares/validateToken');
 
 const router = express.Router();

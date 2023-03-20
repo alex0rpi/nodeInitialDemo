@@ -1,7 +1,4 @@
-const { Partides } = require('../../models/sequelize');
-const { Users } = require('../../models/sequelize');
-const db = require('../../models/sequelize');
-const getHallOfFame = require('../../helpers/mysql/getHallOfFame');
+const getHallOfFame = require('../helpers/mysql/getHallOfFame');
 
 // Aquesta solució ⬇ ⬇, que empra programació "imperativa", requereix de més queries a la base de dades, cosa que podria perjudicar el rendiment de la app.
 const getRanking = async (req, res) => {
@@ -67,7 +64,7 @@ module.exports = {
       const userRaking = await Users.findAll(
         {
           include: {
-            model: Partides,
+            model: Games,
             attributes: [
               [
                 db.sequelize.fn('COUNT', db.sequelize.literal(`CASE WHEN "guanya" = true THEN 1 ELSE NULL END`)),

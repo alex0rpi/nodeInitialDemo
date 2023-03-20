@@ -1,5 +1,5 @@
 const express = require('express');
-const { userPlays, deleteUserGames, getUserGames } = require('../controllers/sequelize/gameControllers');
+const { userPlays, deleteUserGames, getUserGames } = require('../controllers/gameControllers');
 const { validateUser } = require('../middlewares/validateToken');
 
 const router = express.Router();
