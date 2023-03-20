@@ -4,8 +4,8 @@
   "description": "sample project for node",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app/app.js",
-    "dev": "nodemon app/app.js",
+    "mysql": "set DB=mysql&& nodemon app/app.js",
+    "mongo": "set DB=mongodb&& nodemon app/app.js",
     "test": "jest"
   },
   "author": "",
@@ -15,6 +15,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
+    "mongodb": "^5.1.0",
     "mysql2": "^3.2.0",
     "sequelize": "^6.29.0",
     "sequelize-cli": "^6.6.0"

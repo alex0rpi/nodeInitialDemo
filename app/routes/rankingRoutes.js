@@ -1,5 +1,5 @@
 const express = require('express');
-const { getRanking, getWorstPlayer, getBestPlayer } = require('../controllers/rankingControllers');
+const { getRanking, getWorstPlayer, getBestPlayer } = require('../controllers/sequelize/rankingControllers');
 const { validateUser } = require('../middlewares/validateToken');
 
 const router = express.Router();

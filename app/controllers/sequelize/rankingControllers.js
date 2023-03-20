@@ -1,7 +1,7 @@
-const { Partides } = require('../models');
-const { Users } = require('../models');
-const db = require('../models');
-const getHallOfFame = require('../helpers/getHallOfFame');
+const { Partides } = require('../../models/sequelize');
+const { Users } = require('../../models/sequelize');
+const db = require('../../models/sequelize');
+const getHallOfFame = require('../../helpers/mysql/getHallOfFame');
 
 // Aquesta solució ⬇ ⬇, que empra programació "imperativa", requereix de més queries a la base de dades, cosa que podria perjudicar el rendiment de la app.
 const getRanking = async (req, res) => {

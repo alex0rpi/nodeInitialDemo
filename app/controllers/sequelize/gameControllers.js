@@ -1,6 +1,6 @@
-const { Partides } = require('../models');
-const { Users } = require('../models');
-const db = require('../models');
+const { Partides } = require('../../models/sequelize');
+const { Users } = require('../../models/sequelize');
+const db = require('../../models/sequelize');
 
 const userPlays = async (req, res) => {
   const playerId = req.params.id;
