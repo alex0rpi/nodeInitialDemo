@@ -6,7 +6,7 @@ const notFoundController = require('./controllers/notFoundController');
 // mysql imports_______________________________________________________________
 const db = require('./models');
 // MongoDB imports_____________________________________________________________
-const { connectMongoDB } = require('./helpers/mongodb/createMongoDB');
+const { connectMongoDB, getDb } = require('./helpers/createMongoDB');
 require('dotenv').config(); // only needed to require it here
 
 const app = express();
@@ -32,14 +32,12 @@ if (process.env.DB === 'mysql') {
 }
 // Connect to mongoDB database if chosen
 if (process.env.DB === 'mongodb') {
-  console.log('#### '+process.env.DB+' ####');
-  const cbFunction = (error) => {
+  console.log('#### ' + process.env.DB + ' ####');
+  connectMongoDB((error) => {
     if (!error) {
-      const PORT = 3000;
+      const PORT = 5000;
       app.listen(PORT, () => console.log(`Server is listening to port ${PORT}`));
       console.log('Connected to the database');
     }
-    console.log(`Error connecting to the database: ${error}`)
-  };
-  connectMongoDB(cbFunction);
+  });
 }

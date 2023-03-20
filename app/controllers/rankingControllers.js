@@ -1,4 +1,4 @@
-const getHallOfFame = require('../helpers/mysql/getHallOfFame');
+const getHallOfFame = require('../helpers/getHallOfFame');
 
 // Aquesta solució ⬇ ⬇, que empra programació "imperativa", requereix de més queries a la base de dades, cosa que podria perjudicar el rendiment de la app.
 const getRanking = async (req, res) => {

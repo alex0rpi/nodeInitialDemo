@@ -1,5 +1,5 @@
-const { Users } = require('../../models');
-const { Games } = require('../../models');
+const { Users } = require('../models');
+const { Games } = require('../models');
 
 module.exports = getHallOfFame = async () => {
   try {

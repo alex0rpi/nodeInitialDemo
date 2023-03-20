@@ -1,13 +1,11 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const MongoPlayerRepository = require('../repositories/users/MongoPlayerRepository');
-const MysqlUserRepository = require('../repositories/users/MysqlUserRepository');
+const MongoPlayerRepository = require('../infrastructure/users/MongoUserRepository');
+const MysqlUserRepository = require('../infrastructure/users/MysqlUserRepository');
 
 function configPlayerRepository() {
   if (process.env.DB === 'mongodb') {
-    const { getDb } = require('../helpers/mongodb/createMongoDB');
-    let db = getDb();
-    return new MongoPlayerRepository(db);
+    return new MongoPlayerRepository();
   }
   if (process.env.DB === 'mysql') {
     const { Users } = require('../models');
@@ -21,16 +19,17 @@ const createUser = async (req, res) => {
   let { username, password } = req.body;
   // Per ara no hi ha validació ni de username ni de password, però en un futur es podria fer.
   if (!password || password.trim() === '') return res.status(404).json({ message: 'Password is required.' });
+  
   if (!username || username.trim() === '') username = 'ANÒNIM';
   try {
-    const existingUser = repo.retrieve(username);
-    if (existingUser && existingUser.username !== 'ANÒNIM') {
-      return res.status(404).json({
-        message:
-          'Username already taken, try another one, or leave it blank and "ANÒNIM" will be assigned for you.',
-        created: false,
-      });
-    }
+    // const existingUser = await repo.retrieveOne(username);
+    // if (existingUser && existingUser.username !== 'ANÒNIM') {
+      //   return res.status(404).json({
+        //     message:
+        //       'Username already taken, try another one, or leave it blank and -ANÒNIM- will be assigned for you.',
+        //   });
+        // }
+        debugger
     const saltRounds = 10;
     const hashedPw = await bcrypt.hash(password, saltRounds);
     repo.create(username, hashedPw);
@@ -48,7 +47,7 @@ const loginUser = async (req, res) => {
     throw Error('Incorrect fields provided (username and/or password.');
   }
   // Condicions per obtenir token: que un username existent introdueixi la seva contrasenya.
-  const existingUser = await Users.findOne({ where: { username } });
+  const existingUser = await repo.retrieveOne(username);
   if (!existingUser) {
     res.status(404).json({ message: 'User not found, cannot login.' });
   }
@@ -76,7 +75,7 @@ const logOutUser = async (req, res) => {
 
 const getUsers = async (req, res) => {
   try {
-    const players = await Users.findAll();
+    const players = await repo.retrieveAll();
 
     if (!players) return res.status(404).json({ message: 'No players found.' });
     return res.status(200).json({ players });
@@ -90,16 +89,17 @@ const updateUsers = async (req, res) => {
   const { id } = req.params;
   const { newUsername } = req.body;
   try {
-    if (id === '0') {
+    if (+id <= 0) {
       return res.status(404).json({ message: 'No player found.' });
     }
-    const existingUser = await Users.findOne({ where: { id } });
-    await Users.update({ username: newUsername }, { where: { id } });
+    const existingUser = await repo.retrieveOne(id);
+    if (!existingUser) return res.status(404).json({ message: 'No player found.' });
+    await repo.update(newUsername, id);
     return res
       .status(200)
-      .json({ message: `Player -${existingUser.username}- updated with new name: ${newUsername}` });
+      .json({ message: `Player -${existingUser.username}- was updated with new name: ${newUsername}` });
   } catch (error) {
-    return res.status(500).json({ message: 'Error updating player.', err });
+    return res.status(500).json({ message: 'Error updating player.', error });
   }
 };
 
