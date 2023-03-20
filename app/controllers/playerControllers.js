@@ -3,13 +3,13 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 const createPlayer = async (req, res) => {
-  const { username, password } = req.body;
+  let { username, password } = req.body;
   // Per ara no hi ha validació ni de username ni de password, però en un futur es podria fer.
   if (!password || password.trim() === '') return res.status(404).json({ message: 'Password is required.' });
   if (!username || username.trim() === '') username = 'ANÒNIM';
   try {
     const existingUser = await Users.findOne({ where: { username } });
-    if (existingUser) {
+    if (existingUser && existingUser.username !== 'ANÒNIM') {
       return res.status(404).json({
         message:
           'Username already taken, try another one, or leave it blank and "ANÒNIM" will be assigned for you.',
@@ -19,7 +19,7 @@ const createPlayer = async (req, res) => {
     const saltRounds = 10;
     const hashedPw = await bcrypt.hash(password, saltRounds);
     await Users.create({ username, pwd: hashedPw });
-    return res.status(200).json({ message: 'new user created.' });
+    return res.status(200).json({ message: `new user -${username}- created.` });
   } catch (error) {
     return res.status(500).json({ message: 'Error creating player.', error });
   }
