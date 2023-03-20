@@ -14,7 +14,7 @@ const userPlays = async (req, res) => {
 
   // console.log(dau1, dau2, guanya);
   const newGame = await Partides.create({ dau1, dau2, guanya, UserId: playerId });
-  return res.status(200).json({ newGame, message: 'new game created' });
+  return res.status(200).json({ newGame, message: `Player -${existingUser.username}- has played one game.` });
 };
 
 const deleteUserGames = async (req, res) => {
