@@ -1,4 +1,4 @@
-💻 Handout 4.2 Node REST Server with token validation
+💻 Handout 4.2 Node REST Server with token validation (n3)
 
 ## ✈ Enhacements from N1 delivery
 This delivery enriches the N1 version by adding a jsonwebtoken validation flow. This means that the user must be logged in to be able to use the above mentioned endpoints. The login endpoint is not protected by this validation flow, and it's the only one that doesn't require a token to be sent in the header.
