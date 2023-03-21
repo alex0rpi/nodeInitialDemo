@@ -1,11 +1,11 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const MongoPlayerRepository = require('../infrastructure/users/MongoUserRepository');
+const MongoUserRepository = require('../infrastructure/users/MongoUserRepository');
 const MysqlUserRepository = require('../infrastructure/users/MysqlUserRepository');
 
-function configPlayerRepository() {
+function configUserRepository() {
   if (process.env.DB === 'mongodb') {
-    return new MongoPlayerRepository();
+    return new MongoUserRepository();
   }
   if (process.env.DB === 'mysql') {
     const { Users } = require('../models');
@@ -13,23 +13,22 @@ function configPlayerRepository() {
   }
 }
 
-const repo = configPlayerRepository();
+const repo = configUserRepository();
 
 const createUser = async (req, res) => {
   let { username, password } = req.body;
   // Per ara no hi ha validació ni de username ni de password, però en un futur es podria fer.
   if (!password || password.trim() === '') return res.status(404).json({ message: 'Password is required.' });
-  
+
   if (!username || username.trim() === '') username = 'ANÒNIM';
   try {
     // const existingUser = await repo.retrieveOne(username);
-    // if (existingUser && existingUser.username !== 'ANÒNIM') {
-      //   return res.status(404).json({
-        //     message:
-        //       'Username already taken, try another one, or leave it blank and -ANÒNIM- will be assigned for you.',
-        //   });
-        // }
-        debugger
+    // if (existingUser && existingUser.username !== 'ANÒNIM') {n
+    //   return res.status(404).json({
+    //     message:
+    //       'Username already taken, try another one, or leave it blank and -ANÒNIM- will be assigned for you.',
+    //   });
+    // }
     const saltRounds = 10;
     const hashedPw = await bcrypt.hash(password, saltRounds);
     repo.create(username, hashedPw);
