@@ -1,19 +1,5 @@
 const { Games } = require('../models');
 const { Users } = require('../models');
-const db = require('../models');
-
-// function configGamesRepository() {
-//   if (process.env.DB === 'mongodb') {
-//     let db = getDb();
-//     return new MongoUserRepository(db);
-//   }
-//   if (process.env.DB === 'mysql') {
-//     const { Users } = require('../models');
-//     return new MysqlUserRepository(Users);
-//   }
-// }
-
-// const repo = configGamesRepository();
 
 const userPlays = async (req, res) => {
   const playerId = req.params.id;
