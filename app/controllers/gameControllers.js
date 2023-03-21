@@ -1,18 +1,18 @@
 const { Games } = require('../models');
 const { Users } = require('../models');
+const { userRepository } = require('../infrastructure/dependecy-injection');
+const { gameRepository } = require('../infrastructure/dependecy-injection');
 
 const userPlays = async (req, res) => {
-  const playerId = req.params.id;
-  // console.log(playerId);
-  const existingUser = await Users.findOne({ where: { id: playerId } });
+  const id = req.params.id;
+  const existingUser = await userRepository.retrieveById(id);
   if (!existingUser) return res.status(404).json({ message: 'No player found' });
 
   const dau1 = Math.floor(Math.random() * 6) + 1;
   const dau2 = Math.floor(Math.random() * 6) + 1;
   const guanya = dau1 + dau2 === 7 ? true : false;
 
-  // console.log(dau1, dau2, guanya);
-  const newGame = await Games.create({ dau1, dau2, guanya, UserId: playerId });
+  const newGame = await gameRepository.playGame(dau1, dau2, guanya, id);
   return res.status(200).json({ newGame, message: `Player -${existingUser.username}- has played one game.` });
 };
 
@@ -34,8 +34,6 @@ const getUserGames = async (req, res) => {
   );
   return res.status(200).json({ message: `Show games for ${existingUser.username}`, userGames });
 };
-
-
 
 module.exports = {
   userPlays,

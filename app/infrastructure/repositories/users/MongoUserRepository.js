@@ -8,15 +8,10 @@ class MongoUserRepository {
   }
 
   async retrieveById(id) {
-
-    try {
-      let db = getDb();
-      let existingUser = await db.collection('users_dice').findOne({ _id: new ObjectId(id) }, { _id: 0 });
-      // console.log(existingUser)
-      return existingUser;
-    } catch (error) {
-      console.log(error);
-    }
+    let db = getDb();
+    let existingUser = await db.collection('users_dice').findOne({ _id: new ObjectId(id) }, { _id: 0 });
+    // console.log(existingUser)
+    return existingUser;
   }
 
   async retrieveByName(name) {
@@ -29,8 +24,8 @@ class MongoUserRepository {
     let db = getDb();
     let users = [];
     await db
-    .collection('users_dice')
-    .find({}, { pwd: 0 })
+      .collection('users_dice')
+      .find({}, { pwd: 0 })
       .forEach((user) => users.push(user));
     // mongodb .find method returns a "cursor".
     // Then, the method .toArray puts the cursor object into an array
@@ -40,8 +35,10 @@ class MongoUserRepository {
 
   async update(newUsername, id) {
     let db = getDb();
-    let result = await db.collection('users_dice').updateOne({ _id: new ObjectId(id) }, { $set: { username: newUsername } });
-    console.log(result)
+    let result = await db
+      .collection('users_dice')
+      .updateOne({ _id: new ObjectId(id) }, { $set: { username: newUsername } });
+    console.log(result);
   }
 }
 

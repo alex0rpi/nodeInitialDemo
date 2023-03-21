@@ -1,9 +1,18 @@
 const { getDb } = require('../../../helpers/createMongoDB');
+const { ObjectId } = require('mongodb');
 
-class MongoUserRepository {
-  async create(username, password) {
+class MongoGameRepository {
+  async playGame(dau1, dau2, guanya, id) {
+    const newGame = {
+      dau1,
+      dau2,
+      guanya,
+    };
+    const updatedGames = []
     let db = getDb();
-    await db.collection('users_dice').insertOne({ username, pwd: password, games: [], avgWinRatio: null });
+    await db
+      .collection('users_dice')
+      .updateOne({ _id: new ObjectId(id) }, { $set: { games: newUsername } });
   }
 
   async retrieveOne(param) {
@@ -29,10 +38,6 @@ class MongoUserRepository {
     // Can also use .sort, .forEach
     return users;
   }
-
-  async update(username, id) {
-    await db.update();
-  }
 }
 
-module.exports = MongoUserRepository;
+module.exports = MongoGameRepository;
