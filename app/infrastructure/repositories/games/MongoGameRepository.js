@@ -17,10 +17,16 @@ class MongoGameRepository {
     await db.collection('users_dice').updateOne({ _id: new ObjectId(id) }, { $set: { games: [] } });
   }
 
+  async retrieveUserGames(id) {
+    let db = getDb();
+    const existingUser = await db.collection('users_dice').findOne({ _id: new ObjectId(id) });
+    return existingUser.games;
+  }
+
   async cointUserGames(id) {
-    console.log(id)
-    const userId = +id.toString()
-    console.log(userId)
+    console.log(id);
+    const userId = +id.toString();
+    console.log(userId);
     let db = getDb();
     const existingUser = await db.collection('users_dice').findOne({ _id: userId });
     return existingUser.games.toArray().length;

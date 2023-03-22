@@ -23,6 +23,7 @@ const userPlays = async (req, res) => {
 const deleteUserGames = async (req, res) => {
   const userId = req.params.id;
   const existingUser = await userRepository.retrieveById(userId);
+  if (!existingUser) return res.status(404).json({ message: 'No player found' });
   await gameRepository.deleteUserGames(userId);
   // await Games.destroy({ where: { UserId: playerId } });
   return res.status(200).json({ message: `All games for ${existingUser.username} were deleted` });
@@ -31,14 +32,10 @@ const deleteUserGames = async (req, res) => {
 const getUserGames = async (req, res) => {
   const userId = req.params.id;
   const existingUser = await userRepository.retrieveById(userId);
-
   if (!existingUser) return res.status(404).json({ message: 'No player found' });
-  const userGames = existingUser.games;
-  // await Games.findAll(
-  // { attributes: { exclude: ['UserId'] } },
-  // { raw: true },
-  // { where: { UserId: existingUser.id } }
-
+  const userGames = await gameRepository.retrieveUserGames(userId);
+  if (userGames.length === 0)
+    return res.status(404).json({ user: existingUser.username, message: 'No games found for this user' });
   return res.status(200).json({ message: `Show games for ${existingUser.username}`, userGames });
 };
 

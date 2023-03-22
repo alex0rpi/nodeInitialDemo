@@ -1,14 +1,25 @@
-class MongoGameRepository {
+const { Games } = require('../../../models');
+
+class MysqlGameRepository {
   async playGame(dice1, dice2, wins, id) {
-    const existingUser = await db.collection('users_dice').findOne({ _id: new ObjectId(id) });
-    existingUser.games.push({ dice1, dice2, wins });
-    // console.log(existingGames);
-    await 
-      .updateOne({ _id: new ObjectId(id) }, { $set: { games: existingUser.games } });
+    const newGame = await Games.create({ dice1, dice2, wins, UserId: id });
+    return newGame;
   }
 
   async deleteUserGames(id) {
-    await db.collection('users_dice').updateOne({ _id: new ObjectId(id) }, { $set: { games: [] } });
+    const hasGames = await Games.findAll({ where: { UserId: id } });
+    if (hasGames) {
+      await Games.destroy({ where: { UserId: id } });
+    }
+  }
+
+  async retrieveUserGames(id) {
+    const games = await Games.findAll(
+      { where: { UserId: id } },
+      { attributes: { exclude: ['UserId'] } },
+      { raw: true }
+    );
+    return games;
   }
 
   async cointUserGames(id) {
@@ -19,4 +30,4 @@ class MongoGameRepository {
   }
 }
 
-module.exports = MongoGameRepository;
+module.exports = MysqlGameRepository;
