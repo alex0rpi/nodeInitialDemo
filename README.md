@@ -1,7 +1,7 @@
 💻 Handout 4.2 Node REST Server with token validation
 
 ## ✈ Enhacements from N3 mysql-jwt delivery
-This delivery now includes a mongodb database functionality. This is achieved by means of a script in package.json that makes the app run either with mysql or mongodb.
+This Final app uses some hexagonal architecture principles.
 
 ## 🌔 Project description
 This Express API implements several endpoints that query towards a mysql database, using Sequelize as ORM. The purpose is to store users that play a simple dice game, the rules of which are as follows: player can only win if the two dices add up to 7, period.
