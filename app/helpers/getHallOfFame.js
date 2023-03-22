@@ -7,10 +7,8 @@ module.exports = getHallOfFame = async () => {
     let dataArray = [];
     for (let user of users) {
       let winRatio = 0;
-      // numberOfGames = await Games.count({ where: { UserId: user.id } });
       const numberOfGames = await gameRepository.countUserGames(user.id);
-      // numberOfWins = await Games.count({ where: { UserId: user.id, wins: true } });
-      const numberOfWins = await gameRepository.cointUserWins(user.id);
+      const numberOfWins = await gameRepository.countUserWins(user.id);
       if (!(numberOfGames === 0)) winRatio = numberOfWins / numberOfGames;
       dataArray.push({
         player: user.username,
@@ -20,7 +18,7 @@ module.exports = getHallOfFame = async () => {
     }
     return dataArray;
   } catch (error) {
-    console.log(error.message)
+    console.log(error);
     throw new Error(error.message);
   }
 };

@@ -19,14 +19,17 @@ class MysqlGameRepository {
       { attributes: { exclude: ['UserId'] } },
       { raw: true }
     );
+    console.log(games);
     return games;
   }
 
-  async cointUserGames(id) {
-    numberOfGames = await Games.count({ where: { UserId: user.id } });
+  async countUserGames(id) {
+    const numberOfGames = await Games.count({ where: { UserId: id } });
+    return numberOfGames;
   }
-  async cointUserWins(id) {
-    numberOfWins = await Games.count({ where: { UserId: user.id, wins: true } });
+  async countUserWins(id) {
+    const numberOfWins = await Games.count({ where: { UserId: id, wins: true } });
+    return numberOfWins;
   }
 }
 

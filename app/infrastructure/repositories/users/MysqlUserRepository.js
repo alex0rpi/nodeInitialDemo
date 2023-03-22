@@ -6,7 +6,7 @@ class MysqlUserRepository {
   }
 
   async retrieveById(id) {
-    let existingUser = await Users.findOne({ where: { id } });
+    let existingUser = await Users.findOne({ where: { id } }, { attributes: ['id', 'username'], raw: true });
     return existingUser;
   }
 
@@ -14,9 +14,12 @@ class MysqlUserRepository {
     let existingUser = await Users.findOne({ where: { username: name } });
     return existingUser;
   }
-  
+
   async retrieveAll() {
-    const users = await Users.findAll();
+    const users = await Users.findAll({
+      attributes: ['id', 'username'],
+      raw: true,
+    });
     return users;
   }
 

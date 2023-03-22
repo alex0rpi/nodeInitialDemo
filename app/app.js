@@ -25,7 +25,7 @@ app.use(notFoundController);
 // Connect to mysql database if chosen
 if (process.env.DB === 'mysql') {
   console.log('#### ' + process.env.DB + ' ####');
-  const PORT = process.env.PORT || 4000;
+  const PORT = process.env.PORT || 5000;
   db.sequelize.sync().then(() => {
     app.listen(PORT, () => console.log('Server is running of port ' + PORT));
   });

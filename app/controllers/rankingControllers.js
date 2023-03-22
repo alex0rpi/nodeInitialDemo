@@ -7,17 +7,18 @@ const getRanking = async (req, res) => {
     const dataArray = await getHallOfFame();
     const resultRanking = dataArray
       .sort((a, b) => b.winRatio - a.winRatio)
-      .map((player) => {
-        avgWinRatio += player.winRatio;
+      .map((userObj) => {
+        avgWinRatio += userObj.winRatio;
         return {
-          ...player,
-          winRatio: `${(player.winRatio * 100).toFixed(2)}%`,
+          ...userObj,
+          winRatio: `${(userObj.winRatio * 100).toFixed(2)}%`,
         };
       });
     avgWinRatio = `${((avgWinRatio / dataArray.length) * 100).toFixed(2)}%`;
     return res.status(202).json({ message: 'raking', avgWinRatio, resultRanking });
   } catch (error) {
-    return res.status(500).json({ message: 'error', error:error.message });
+    console.log(error);
+    return res.status(500).json({ message: 'error', error });
   }
 };
 
