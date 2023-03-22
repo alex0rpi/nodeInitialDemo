@@ -1,42 +1,38 @@
-const { getDb } = require('../../../helpers/createMongoDB');
+const { getDb } = require('../../../db/createMongoDB');
 const { ObjectId } = require('mongodb');
 
 class MongoGameRepository {
-  async playGame(dau1, dau2, guanya, id) {
-    const newGame = {
-      dau1,
-      dau2,
-      guanya,
-    };
-    const updatedGames = []
+  async playGame(dice1, dice2, wins, id) {
     let db = getDb();
+    const existingUser = await db.collection('users_dice').findOne({ _id: new ObjectId(id) });
+    existingUser.games.push({ dice1, dice2, wins });
+    // console.log(existingGames);
     await db
       .collection('users_dice')
-      .updateOne({ _id: new ObjectId(id) }, { $set: { games: newUsername } });
+      .updateOne({ _id: new ObjectId(id) }, { $set: { games: existingUser.games } });
   }
 
-  async retrieveOne(param) {
+  async deleteUserGames(id) {
     let db = getDb();
-    let existingUser;
-    if (typeof param === 'number') {
-      existingUser = await db.collection('users_dice').findOne({ _id: ObjectId(param) });
-      return existingUser;
-    }
-    existingUser = await db.collection('users_dice').findOne({ username: param });
-    return existingUser; // returns null if not found
+    await db.collection('users_dice').updateOne({ _id: new ObjectId(id) }, { $set: { games: [] } });
   }
 
-  async retrieveAll() {
+  async cointUserGames(id) {
+    console.log(id)
+    const userId = +id.toString()
+    console.log(userId)
     let db = getDb();
-    let users = [];
-    await db
-      .collection('users_dice')
-      .find({}, { pwd: 0 })
-      .forEach((user) => users.push(user));
-    // mongodb .find method returns a "cursor".
-    // Then, the method .toArray puts the cursor object into an array
-    // Can also use .sort, .forEach
-    return users;
+    const existingUser = await db.collection('users_dice').findOne({ _id: userId });
+    return existingUser.games.toArray().length;
+  }
+  async cointUserWins(id) {
+    let db = getDb();
+    const existingUser = await db.collection('users_dice').findOne({ _id: new ObjectId(id) });
+    let wins = 0;
+    existingUser.games.forEach((game) => {
+      if (game.wins) wins++;
+    });
+    return wins;
   }
 }
 

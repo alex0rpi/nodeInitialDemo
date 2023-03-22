@@ -17,7 +17,7 @@ const getRanking = async (req, res) => {
     avgWinRatio = `${((avgWinRatio / dataArray.length) * 100).toFixed(2)}%`;
     return res.status(202).json({ message: 'raking', avgWinRatio, resultRanking });
   } catch (error) {
-    return res.status(500).json({ message: 'error', error });
+    return res.status(500).json({ message: 'error', error:error.message });
   }
 };
 
@@ -67,14 +67,14 @@ module.exports = {
             model: Games,
             attributes: [
               [
-                db.sequelize.fn('COUNT', db.sequelize.literal(`CASE WHEN "guanya" = true THEN 1 ELSE NULL END`)),
+                db.sequelize.fn('COUNT', db.sequelize.literal(`CASE WHEN "wins" = true THEN 1 ELSE NULL END`)),
                 'totalWins',
               ],
               [db.sequelize.fn('COUNT', db.sequelize.col('UserId')), 'totalGames'],
               [
                 db.sequelize.fn(
                   'ROUND', db.sequelize.fn( 'COALESCE', db.sequelize.fn( 'CAST', // coalesce to avoid null values
-                      db.sequelize.fn('COUNT', db.sequelize.literal(`CASE WHEN "guanya" = true THEN 1 ELSE NULL END`)) /
+                      db.sequelize.fn('COUNT', db.sequelize.literal(`CASE WHEN "wins" = true THEN 1 ELSE NULL END`)) /
                         db.sequelize.fn('NULLIF', db.sequelize.fn('COUNT', db.sequelize.col('UserId')), 0) // nullif to avoid division by zero
                     ) * 100,
                     0 // 0 if null

@@ -2,15 +2,15 @@ module.exports = (sequelize, DataTypes) => {
   const Games = sequelize.define(
     'Games',
     {
-      dau1: {
+      dice1: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      dau2: {
+      dice2: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      guanya: {
+      wins: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
       },

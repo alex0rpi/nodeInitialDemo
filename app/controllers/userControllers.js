@@ -11,7 +11,7 @@ const createUser = async (req, res) => {
   try {
     const existingUser = await userRepository.retrieveByName(username);
     if (existingUser && existingUser.username !== 'ANÒNIM') {
-      n;
+      
       return res.status(404).json({
         message:
           'Username already taken, try another one, or leave it blank and -ANÒNIM- will be assigned for you.',
@@ -22,7 +22,7 @@ const createUser = async (req, res) => {
     userRepository.create(username, hashedPw);
     return res.status(200).json({ message: `new user -${username}- created. ` });
   } catch (error) {
-    return res.status(500).json({ message: 'Error creating player.', error });
+    return res.status(500).json({ message: 'Error creating player.', error: error.message });
   }
 };
 

@@ -4,7 +4,7 @@ const { validateUser } = require('../middlewares/validateToken');
 
 const router = express.Router();
 
-router.use(validateUser);
+// router.use(validateUser);
 
 router.post('/:id', userPlays); //un jugador/a específic realitza una tirada.
 

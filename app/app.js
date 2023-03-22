@@ -6,7 +6,7 @@ const notFoundController = require('./controllers/notFoundController');
 // mysql imports_______________________________________________________________
 const db = require('./models');
 // MongoDB imports_____________________________________________________________
-const { connectMongoDB, getDb } = require('./helpers/createMongoDB');
+const { connectMongoDB } = require('./db/createMongoDB');
 require('dotenv').config(); // only needed to require it here
 
 const app = express();

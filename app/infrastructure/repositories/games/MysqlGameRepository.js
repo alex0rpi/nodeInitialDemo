@@ -1,29 +1,22 @@
-const { Games } = require('../../../models');
-const { Users } = require('../../../models');
-
-class MysqlGameRepository {
-  async create(username, password) {
-    await Users.create({ username, pwd: password });
+class MongoGameRepository {
+  async playGame(dice1, dice2, wins, id) {
+    const existingUser = await db.collection('users_dice').findOne({ _id: new ObjectId(id) });
+    existingUser.games.push({ dice1, dice2, wins });
+    // console.log(existingGames);
+    await 
+      .updateOne({ _id: new ObjectId(id) }, { $set: { games: existingUser.games } });
   }
 
-  async retrieveOne(param) {
-    let existingUser;
-    if (typeof +param === 'number') {
-      existingUser = await Users.findOne({ where: { id: param } });
-      return existingUser;
-    }
-    existingUser = await Users.findOne({ where: { username: param } });
-    return existingUser;
-  }
-  async retrieveAll() {
-    const users = await Users.findAll();
-    return users;
+  async deleteUserGames(id) {
+    await db.collection('users_dice').updateOne({ _id: new ObjectId(id) }, { $set: { games: [] } });
   }
 
-  async update(username, id) {
-    await Users.update({ username }, { where: { id } });
-    /* The sequelize.update() method in Node.js can return an integer value representing the number of rows affected by the update operation. */
+  async cointUserGames(id) {
+    numberOfGames = await Games.count({ where: { UserId: user.id } });
+  }
+  async cointUserWins(id) {
+    numberOfWins = await Games.count({ where: { UserId: user.id, wins: true } });
   }
 }
 
-module.exports = MysqlGameRepository;
+module.exports = MongoGameRepository;

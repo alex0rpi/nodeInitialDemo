@@ -1,4 +1,4 @@
-const { getDb } = require('../../../helpers/createMongoDB');
+const { getDb } = require('../../../db/createMongoDB');
 const { ObjectId } = require('mongodb');
 
 class MongoUserRepository {
@@ -26,7 +26,7 @@ class MongoUserRepository {
     await db
       .collection('users_dice')
       .find({}, { pwd: 0 })
-      .forEach((user) => users.push(user));
+      .forEach((user) => users.push({ id: user._id,...user  }));
     // mongodb .find method returns a "cursor".
     // Then, the method .toArray puts the cursor object into an array
     // Can also use .sort, .forEach
