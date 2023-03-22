@@ -26,7 +26,15 @@ class MongoUserRepository {
     await db
       .collection('users_dice')
       .find({}, { pwd: 0 })
-      .forEach((user) => users.push({ id: user._id,...user  }));
+      .forEach((user) =>
+        users.push({
+          id: user._id,
+          _id: user._id,
+          username: user.username,
+          games: user.games,
+          avgWinRatio: user.avgWinRatio,
+        })
+      );
     // mongodb .find method returns a "cursor".
     // Then, the method .toArray puts the cursor object into an array
     // Can also use .sort, .forEach
@@ -38,7 +46,7 @@ class MongoUserRepository {
     let result = await db
       .collection('users_dice')
       .updateOne({ _id: new ObjectId(id) }, { $set: { username: newUsername } });
-    console.log(result);
+    // console.log(result);
   }
 }
 

@@ -6,6 +6,7 @@
   "scripts": {
     "mysql": "set DB=mysql&& nodemon app/app.js",
     "mongo": "set DB=mongodb&& nodemon app/app.js",
+    "mongodb": "set DB=mongodb&& nodemon app/app.js",
     "test": "jest"
   },
   "author": "",

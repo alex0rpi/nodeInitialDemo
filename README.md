@@ -28,4 +28,4 @@ Before executing please follow these steps below:
 Please click on the link below to view and test the endpoints via Postman web.
 Once you're set, just click on the different endpoints and see what happens. Have fun!!
 
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/25968116-da6bab97-56e5-492b-9ba6-0c4b699d1f23?action=collection%2Ffork&collection-url=entityId%3D25968116-da6bab97-56e5-492b-9ba6-0c4b699d1f23%26entityType%3Dcollection%26workspaceId%3D57d04225-0c95-4842-86b9-1798df87390b)
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/25968116-a9919201-a75b-410b-84f3-dc68481519ed?action=collection%2Ffork&collection-url=entityId%3D25968116-a9919201-a75b-410b-84f3-dc68481519ed%26entityType%3Dcollection%26workspaceId%3D57d04225-0c95-4842-86b9-1798df87390b)
