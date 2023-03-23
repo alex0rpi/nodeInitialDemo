@@ -35,9 +35,7 @@ class MongoUserRepository {
           avgWinRatio: user.avgWinRatio,
         })
       );
-    // mongodb .find method returns a "cursor".
-    // Then, the method .toArray puts the cursor object into an array
-    // Can also use .sort, .forEach
+    // mongodb .find method returns a "cursor". Then, the method .toArray puts the cursor object into an array. We can also use .sort, .forEach
     return users;
   }
 
