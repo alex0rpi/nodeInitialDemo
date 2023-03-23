@@ -46,6 +46,7 @@ class MongoUserRepository {
       .updateOne({ _id: new ObjectId(id) }, { $set: { username: newUsername } });
     // console.log(result);
   }
+
 }
 
 module.exports = MongoUserRepository;

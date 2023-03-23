@@ -4,7 +4,7 @@ const { validateUser } = require('../middlewares/validateToken');
 
 const router = express.Router();
 
-// router.use(validateUser);
+router.use(validateUser);
 
 router.get('/', getRanking); //retorna un ranking de jugadors ordenat per percentatge d'èxits i el percentatge d’èxits mig del conjunt de tots els jugadors.
 

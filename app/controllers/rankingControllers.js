@@ -1,20 +1,9 @@
-const getHallOfFame = require('../helpers/getHallOfFame');
+const getHallOfFame = require('../domain/services/getHallOfFame');
 
 // Aquesta solució ⬇ ⬇, que empra programació "imperativa", requereix de més queries a la base de dades, cosa que podria perjudicar el rendiment de la app.
 const getRanking = async (req, res) => {
   try {
-    let avgWinRatio = 0;
-    const dataArray = await getHallOfFame();
-    const resultRanking = dataArray
-      .sort((a, b) => b.winRatio - a.winRatio)
-      .map((userObj) => {
-        avgWinRatio += userObj.winRatio;
-        return {
-          ...userObj,
-          winRatio: `${(userObj.winRatio * 100).toFixed(2)}%`,
-        };
-      });
-    avgWinRatio = `${((avgWinRatio / dataArray.length) * 100).toFixed(2)}%`;
+    const { resultRanking, avgWinRatio } = await getHallOfFame();
     return res.status(202).json({ message: 'raking', avgWinRatio, resultRanking });
   } catch (error) {
     console.log(error);
@@ -24,8 +13,8 @@ const getRanking = async (req, res) => {
 
 const getWorstPlayer = async (req, res) => {
   try {
-    const dataArray = await getHallOfFame();
-    const worstPlayer = dataArray.sort((a, b) => a.winRatio - b.winRatio)[0];
+    const { resultRanking } = await getHallOfFame();
+    const worstPlayer = resultRanking.sort((a, b) => a.winRatio - b.winRatio)[0];
     res.status(200).json({
       message: 'Worst player',
       worstPlayer: { ...worstPlayer, winRatio: `${worstPlayer.winRatio.toFixed(2) * 100}%` },
@@ -38,8 +27,8 @@ const getWorstPlayer = async (req, res) => {
 
 const getBestPlayer = async (req, res) => {
   try {
-    const dataArray = await getHallOfFame();
-    const bestPlayer = dataArray.sort((a, b) => b.winRatio - a.winRatio)[0];
+    const { resultRanking } = await getHallOfFame();
+    const bestPlayer = resultRanking.sort((a, b) => b.winRatio - a.winRatio)[0];
     res.status(200).json({
       message: 'Worst player',
       bestPlayer: { ...bestPlayer, winRatio: `${bestPlayer.winRatio.toFixed(2) * 100}%` },

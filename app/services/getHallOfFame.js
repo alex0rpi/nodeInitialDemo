@@ -1,7 +1,7 @@
-const { userRepository } = require('../infrastructure/dependecy-injection');
-const { gameRepository } = require('../infrastructure/dependecy-injection');
+const { userRepository } = require('../../infrastructure/dependecy-injection');
+const { gameRepository } = require('../../infrastructure/dependecy-injection');
 
-module.exports = getHallOfFame = async () => {
+module.exports = getHallOfFame = async (users, userGames) => {
   try {
     const users = await userRepository.retrieveAll(); // [{},{}]
     let dataArray = [];

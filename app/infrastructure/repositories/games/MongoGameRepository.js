@@ -25,17 +25,31 @@ class MongoGameRepository {
 
   async countUserGames(id) {
     let db = getDb();
-    const existingUser = await db.collection('users_dice').findOne({ _id: new ObjectId(id)});
-    return existingUser.games.length;
+    const result = await db
+      .collection('users_dice')
+      .aggregate([
+        { $match: { _id: new ObjectId(id) } },
+        { $project: { numGamesPlayed: { $size: '$games' } } },
+      ])
+      .toArray();
+    return result[0].numGamesPlayed;
   }
   async countUserWins(id) {
     let db = getDb();
-    const existingUser = await db.collection('users_dice').findOne({ _id: new ObjectId(id) });
-    let wins = 0;
-    existingUser.games.forEach((game) => {
-      if (game.wins) wins++;
-    });
-    return wins;
+    const result = await db
+      .collection('users_dice')
+      .aggregate([
+        { $match: { _id: new ObjectId(id) } },
+        {
+          $project: {
+            numWins: {
+              $size: { $filter: { input: '$games', as: 'game', cond: { $eq: ['$$game.wins', true] } } },
+            },
+          },
+        },
+      ])
+      .toArray();
+    return result[0].numWins;
   }
 }
 

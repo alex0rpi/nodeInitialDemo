@@ -8,7 +8,7 @@ const validateUser = async (req, res, next) => {
     if (!token) {
       throw new Error('Authentication failed!');
     }
-    const decodedToken = jwt.verify(token, process.env.SECRET);
+    const decodedToken = jwt.verify(token, "mysecret");
     // console.log('decoded token:', decodedToken);
     if (!decodedToken) {
       return res.status(403).json({ message: 'Authentication failed due to invalid or non existing token!' });

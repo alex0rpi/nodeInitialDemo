@@ -11,7 +11,6 @@ const createUser = async (req, res) => {
   try {
     const existingUser = await userRepository.retrieveByName(username);
     if (existingUser && existingUser.username !== 'ANÒNIM') {
-      
       return res.status(404).json({
         message:
           'Username already taken, try another one, or leave it blank and -ANÒNIM- will be assigned for you.',
@@ -28,29 +27,36 @@ const createUser = async (req, res) => {
 
 // A partir de la creació d'un user, aquest té la possibilitat de fer /login, per poder accedir a la resta d'endpoints.
 
+class NotCorrectParamsError extends Error {
+  constructor(message) {
+    super(message);
+  }
+}
+
 const loginUser = async (req, res) => {
-  const { username, password } = req.body;
-  if (!username || !password) {
-    throw Error('Incorrect fields provided (username and/or password.');
+  try {
+    const { username, password } = req.body;
+    if (!username || !password)
+      throw new NotCorrectParamsError('Incorrect fields provided (username and/or password.');
+
+    const existingUser = await userRepository.retrieveByName(username);
+    if (!existingUser) throw Error('User not found, cannot login.');
+
+    const isMatch = await bcrypt.compare(password, existingUser.pwd);
+    if (!isMatch) throw Error('Incorrect password.');
+    debugger;
+    // jwt creation ---------------------
+    const token = jwt.sign({ username: existingUser.username, _uid: existingUser.id },"mysecret", {
+      expiresIn: '1h',
+    });
+    // #############################
+    res.setHeader('authorization', 'Bearer ' + token);
+    // #############################
+    res.status(200).json({ message: 'User logged in!!.', username, token });
+  } catch (error) {
+    if (error instanceof NotCorrectParamsError) return res.status(401).json({ message: error.message });
+    return res.status(404).json({ error });
   }
-  // Condicions per obtenir token: que un username existent introdueixi la seva contrasenya.
-  const existingUser = await userRepository.retrieveByName(username);
-  if (!existingUser) {
-    res.status(404).json({ message: 'User not found, cannot login.' });
-  }
-  // Check password
-  const isMatch = await bcrypt.compare(password, existingUser.pwd);
-  if (!isMatch) {
-    return res.status(401).json({ error: 'Incorrect password.' });
-  }
-  // jwt creation ---------------------
-  const token = jwt.sign({ username: existingUser.username, _uid: existingUser.id }, process.env.SECRET, {
-    expiresIn: '1h',
-  });
-  // #############################
-  res.setHeader('authorization', 'Bearer ' + token);
-  // #############################
-  res.status(200).json({ message: 'User logged in!!.', username, token });
 };
 
 const getUsers = async (req, res) => {
@@ -69,7 +75,7 @@ const updateUsers = async (req, res) => {
   const { id } = req.params;
   const { newUsername } = req.body;
   try {
-    if (+id <= 0) {
+    if (Number(id) <= 0) {
       return res.status(404).json({ message: 'No player found.' });
     }
     const existingUser = await userRepository.retrieveById(id);
