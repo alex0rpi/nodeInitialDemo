@@ -1,1 +1,0 @@
-// aqui les classes dels errors

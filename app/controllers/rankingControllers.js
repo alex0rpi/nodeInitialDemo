@@ -14,10 +14,10 @@ const getRanking = async (req, res) => {
 const getWorstPlayer = async (req, res) => {
   try {
     const { resultRanking } = await getHallOfFame();
-    const worstPlayer = resultRanking.sort((a, b) => a.winRatio - b.winRatio)[0];
+    const worstPlayer = resultRanking[resultRanking.length - 1];
     res.status(200).json({
       message: 'Worst player',
-      worstPlayer: { ...worstPlayer, winRatio: `${worstPlayer.winRatio.toFixed(2) * 100}%` },
+      worstPlayer: { ...worstPlayer, winRatio: worstPlayer.winRatio },
     });
   } catch (error) {
     console.log(error);
@@ -28,10 +28,10 @@ const getWorstPlayer = async (req, res) => {
 const getBestPlayer = async (req, res) => {
   try {
     const { resultRanking } = await getHallOfFame();
-    const bestPlayer = resultRanking.sort((a, b) => b.winRatio - a.winRatio)[0];
+    const bestPlayer = resultRanking[0];
     res.status(200).json({
       message: 'Worst player',
-      bestPlayer: { ...bestPlayer, winRatio: `${bestPlayer.winRatio.toFixed(2) * 100}%` },
+      bestPlayer: { ...bestPlayer, winRatio: bestPlayer.winRatio },
     });
   } catch (error) {
     console.log(error);

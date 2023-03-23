@@ -19,7 +19,7 @@ class MysqlGameRepository {
       { attributes: { exclude: ['UserId'] } },
       { raw: true }
     );
-    console.log(games);
+    // console.log(games);
     return games;
   }
 

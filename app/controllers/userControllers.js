@@ -1,38 +1,32 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { userRepository } = require('../infrastructure/dependecy-injection');
+const NotCorrectParamsError = require('./exceptions/ErrorHandler');
+require('dotenv').config(); // only needed to require it here
 
 const createUser = async (req, res) => {
-  let { username, password } = req.body;
-  // Per ara no hi ha validació ni de username ni de password, però en un futur es podria fer.
-  if (!password || password.trim() === '') return res.status(404).json({ message: 'Password is required.' });
-
-  if (!username || username.trim() === '') username = 'ANÒNIM';
   try {
+    let { username, password } = req.body;
+    // Per ara no hi ha validació ni de username ni de password, però en un futur es podria fer.
+    if (!password || password.trim() === '') throw new NotCorrectParamsError('Password is required.');
+    if (!username || username.trim() === '') username = 'ANÒNIM';
     const existingUser = await userRepository.retrieveByName(username);
     if (existingUser && existingUser.username !== 'ANÒNIM') {
-      return res.status(404).json({
-        message:
-          'Username already taken, try another one, or leave it blank and -ANÒNIM- will be assigned for you.',
-      });
+      throw new NotCorrectParamsError(
+        'Username already taken, try another one, or leave it blank and -ANÒNIM- will be assigned for you.'
+      );
     }
     const saltRounds = 10;
     const hashedPw = await bcrypt.hash(password, saltRounds);
     userRepository.create(username, hashedPw);
     return res.status(200).json({ message: `new user -${username}- created. ` });
   } catch (error) {
-    return res.status(500).json({ message: 'Error creating player.', error: error.message });
+    if (error instanceof NotCorrectParamsError) return res.status(401).json({ message: error.message });
+    return res.status(404).json({ error });
   }
 };
 
-// A partir de la creació d'un user, aquest té la possibilitat de fer /login, per poder accedir a la resta d'endpoints.
-
-class NotCorrectParamsError extends Error {
-  constructor(message) {
-    super(message);
-  }
-}
-
+// Once a user has been created, it has the possibility to do /login, in order to access the rest of the endpoints.
 const loginUser = async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -40,13 +34,12 @@ const loginUser = async (req, res) => {
       throw new NotCorrectParamsError('Incorrect fields provided (username and/or password.');
 
     const existingUser = await userRepository.retrieveByName(username);
-    if (!existingUser) throw Error('User not found, cannot login.');
+    if (!existingUser) throw new NotCorrectParamsError('User not found, cannot login.');
 
     const isMatch = await bcrypt.compare(password, existingUser.pwd);
-    if (!isMatch) throw Error('Incorrect password.');
-    debugger;
+    if (!isMatch) throw new NotCorrectParamsError('Incorrect password.');
     // jwt creation ---------------------
-    const token = jwt.sign({ username: existingUser.username, _uid: existingUser.id },"mysecret", {
+    const token = jwt.sign({ username: existingUser.username, _uid: existingUser.id }, process.env.SECRET, {
       expiresIn: '1h',
     });
     // #############################
@@ -72,19 +65,20 @@ const getUsers = async (req, res) => {
 };
 
 const updateUsers = async (req, res) => {
-  const { id } = req.params;
-  const { newUsername } = req.body;
   try {
+    const { id } = req.params;
+    const { newUsername } = req.body;
     if (Number(id) <= 0) {
-      return res.status(404).json({ message: 'No player found.' });
+      throw new NotCorrectParamsError('Incorrect parameter provided (id).');
     }
     const existingUser = await userRepository.retrieveById(id);
-    if (!existingUser) return res.status(404).json({ message: 'No player found.' });
+    if (!existingUser) throw new NotCorrectParamsError('No player found.');
     await userRepository.update(newUsername, id);
     return res
       .status(200)
       .json({ message: `Player -${existingUser.username}- was updated with new name: ${newUsername}` });
   } catch (error) {
+    if (error instanceof NotCorrectParamsError) return res.status(401).json({ message: error.message });
     return res.status(500).json({ message: 'Error updating player.', error });
   }
 };

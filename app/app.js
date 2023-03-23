@@ -1,3 +1,4 @@
+require('dotenv').config(); // only needed to require it here
 const express = require('express');
 const userRoutes = require('./routes/userRoutes');
 const gameRoutes = require('./routes/gameRoutes');
@@ -7,7 +8,6 @@ const notFoundController = require('./middlewares/notFoundController');
 const db = require('./models');
 // MongoDB imports_____________________________________________________________
 const { connectMongoDB } = require('./db/createMongoDB');
-require('dotenv').config(); // only needed to require it here
 
 const app = express();
 
