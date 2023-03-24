@@ -8,7 +8,6 @@ const {
 const { validateUser } = require('../middlewares/validateToken');
 
 const router = express.Router();
-
 // En primer lloc, crear un jugador usuari.
 router.post('/', createUser); //crea un jugador/a
 

@@ -5,7 +5,7 @@ const gameRoutes = require('./routes/gameRoutes');
 const rankingRoutes = require('./routes/rankingRoutes');
 const notFoundController = require('./middlewares/notFoundController');
 // mysql imports_______________________________________________________________
-const db = require('./models');
+const { initDB } = require('./models/initModels');
 // MongoDB imports_____________________________________________________________
 const { connectMongoDB } = require('./db/createMongoDB');
 
@@ -28,11 +28,9 @@ if (process.env.DB === 'mysql') {
   console.log('#     ' + process.env.DB + '     #');
   console.log('#################');
   const PORT = process.env.PORT || 5000;
-  db.sequelize.sync().then(() => {
-    console.log('Connected to mysql database')
-    app.listen(PORT, () => console.log('Server is running of port ' + PORT));
-  });
+  initDB().then(() => app.listen(PORT, () => console.log('Server is running of port ' + PORT)));
 }
+
 // Connect to mongoDB database if chosen
 if (process.env.DB === 'mongodb') {
   console.log('#################');

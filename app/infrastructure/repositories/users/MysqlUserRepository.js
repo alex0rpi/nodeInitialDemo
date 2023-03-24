@@ -1,4 +1,4 @@
-const { Users } = require('../../../models');
+const { Users } = require('../../../models/initModels');
 
 class MysqlUserRepository {
   async create(username, password) {

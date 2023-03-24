@@ -1,4 +1,4 @@
-const { Games } = require('../../../models');
+const { Games } = require('../../../models/initModels');
 
 class MysqlGameRepository {
   async playGame(dice1, dice2, wins, id) {
