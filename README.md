@@ -20,11 +20,13 @@ Before executing please follow these steps below:
 
 ✔ please modify the .env-file extension to .env and make sure you put the correct credentials for your local mysql server (i.e. username, password, database name).
 
-### MongoDB persistance
+#### MongoDB persistance
+
 ✔ install mongodb Compass or any other GUI for mongoDB (https://www.mongodb.com/try/download/compass)
 ✔ execute in terminal: npm run mongo OR npm run mongodb
 
-### MySQL persistance
+#### MySQL persistance
+
 ✔ install mysql server (https://dev.mysql.com/downloads/mysql/) and mysql workbench (https://dev.mysql.com/downloads/workbench/)
 ✔ go to the file -env and make sure you put the correct credentials for your local mysql server (i.e. username, password, database name). If you put this info in the development section you'll be set to go.
 ✔ execute in terminal: npm run mysql --> this will automatically create a database with the name you specified in the .env file, so no need to create it manually on the workbench (convenient huh? ;)

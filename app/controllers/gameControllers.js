@@ -1,5 +1,6 @@
 const { userRepository } = require('../infrastructure/dependecy-injection');
 const { gameRepository } = require('../infrastructure/dependecy-injection');
+const createGame = require('../domain/services/playGame');
 const NotCorrectParamsError = require('./exceptions/ErrorHandler');
 
 const userPlays = async (req, res) => {
@@ -7,9 +8,7 @@ const userPlays = async (req, res) => {
     const id = req.params.id;
     const existingUser = await userRepository.retrieveById(id);
     if (!existingUser) throw new NotCorrectParamsError('No player found');
-    const dice1 = Math.floor(Math.random() * 6) + 1;
-    const dice2 = Math.floor(Math.random() * 6) + 1;
-    const wins = dice1 + dice2 === 7 ? true : false;
+    const { dice1, dice2, wins } = createGame();
     await gameRepository.playGame(dice1, dice2, wins, id);
     const newGame = { dice1, dice2, wins };
     return res
