@@ -19,8 +19,7 @@ Before executing please follow these steps below:
 
 ✔ For local testing of the mysql database, please do the following:
 1. install mysql server (https://dev.mysql.com/downloads/mysql/)
-2. create a database schema for the purpose of this demo, and remember the name
-3. go to config.json inside the confid directory and make sure you put the correct credentials for your local mysql server (i.e. username, password, database name). If you put this info in the development section you'll be set to go.
+2. go to the file -env and make sure you put the correct credentials for your local mysql server (i.e. username, password, database name). If you put this info in the development section you'll be set to go.
 
 ✔ npm start --> will fire up the server to communicate with mysql.
 
