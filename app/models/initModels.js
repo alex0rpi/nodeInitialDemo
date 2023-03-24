@@ -31,7 +31,7 @@ const initDB = async () => {
     await designDB();
     await sequelize.authenticate();
     await sequelize.sync({ force: false });
-    console.log('Connexió a la DB satisfactòria');
+    console.log('Mysql DB successfully connected.');
   } catch (error) {
     console.log(error.message);
     console.log('There was an error connecting with the database');
