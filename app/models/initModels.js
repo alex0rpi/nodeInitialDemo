@@ -6,6 +6,14 @@ const _Games = require('./Games');
 
 const { designDB } = require('../db/createMysqlDB');
 
+const sequelize = new Sequelize(mysqlConfig.name, mysqlConfig.user, mysqlConfig.password, {
+  host: mysqlConfig.host,
+  port: mysqlConfig.port,
+  dialect: 'mysql',
+  define: { freezeTableName: true },
+  logging: false,
+});
+
 function initModels(sequelize) {
   const Users = _Users(sequelize, Sequelize.DataTypes);
   const Games = _Games(sequelize, Sequelize.DataTypes);
@@ -15,14 +23,6 @@ function initModels(sequelize) {
     Games,
   };
 }
-
-const sequelize = new Sequelize(mysqlConfig.name, mysqlConfig.user, mysqlConfig.password, {
-  host: mysqlConfig.host,
-  port: mysqlConfig.port,
-  dialect: 'mysql',
-  define: { freezeTableName: true },
-  logging: false,
-});
 
 const { Users, Games } = initModels(sequelize);
 
